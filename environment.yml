@@ -19,6 +19,7 @@ dependencies:
   - panel=0.13.1
   - pip
   - python=3.7
+  - rasterio=1.2.6
   - xarray=0.20.2
   - pip:
     - jupyterlab==3.4.3
