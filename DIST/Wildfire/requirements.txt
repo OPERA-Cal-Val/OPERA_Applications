@@ -6,5 +6,4 @@ hvplot==0.8.0
 numpy==1.21.6
 panel==0.13.1
 pyproj==3.2.1
-session_info==1.0.0
 xarray==0.20.2
