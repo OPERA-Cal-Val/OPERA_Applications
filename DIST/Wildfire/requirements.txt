@@ -1,0 +1,10 @@
+bokeh==2.4.3
+geopandas==0.10.2
+geoviews==1.9.5
+holoviews==1.14.9
+hvplot==0.8.0
+numpy==1.21.6
+panel==0.13.1
+pyproj==3.2.1
+session_info==1.0.0
+xarray==0.20.2
