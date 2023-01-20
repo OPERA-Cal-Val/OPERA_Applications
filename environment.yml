@@ -3,6 +3,7 @@ channels:
   - defaults
 dependencies:
   - bokeh=2.4.3
+  - boto3
   - gdal=3.2.2
   - geopandas=0.10.2
   - geoviews=1.9.5
@@ -19,8 +20,10 @@ dependencies:
   - panel=0.13.1
   - pip
   - python=3.7
+  - requests
   - rasterio=1.2.6
   - xarray=0.20.2
   - pip:
     - jupyterlab==3.4.3
     - jupyterlab-server==2.14.0
+    - selenium
