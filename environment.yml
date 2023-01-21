@@ -4,9 +4,9 @@ channels:
 dependencies:
   - bokeh=2.4.3
   - boto3
-  - firefox     #for saving hvplot
+  #- firefox     #for saving hvplot when running binder
   - gdal=3.2.2
-  - geckodriver #for saving hvplot
+  #- geckodriver #for saving hvplot when running binder
   - geopandas=0.10.2
   - geoviews=1.9.5
   - geoviews-core=1.9.5
