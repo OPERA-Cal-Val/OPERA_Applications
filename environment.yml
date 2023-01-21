@@ -27,3 +27,5 @@ dependencies:
     - jupyterlab==3.4.3
     - jupyterlab-server==2.14.0
     - selenium
+    - pystac-client
+    - scikit-image
