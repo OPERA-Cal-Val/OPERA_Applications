@@ -1,3 +1,4 @@
+name: opera_app
 channels:
   - conda-forge
   - defaults
@@ -24,6 +25,7 @@ dependencies:
   - python=3.7
   - requests
   - rasterio=1.2.6
+  - rioxarray
   - xarray=0.20.2
   - pip:
     - jupyterlab==3.4.3
