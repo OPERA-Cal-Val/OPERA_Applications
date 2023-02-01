@@ -1,4 +1,4 @@
-name: opera_app
+name: opera_app_dev
 channels:
   - conda-forge
   - defaults
@@ -28,8 +28,11 @@ dependencies:
   - rioxarray
   - xarray=0.20.2
   - pip:
+    - gdal-utils
     - jupyterlab==3.4.3
     - jupyterlab-server==2.14.0
     - selenium
     - pystac-client
     - scikit-image
+    - leafmap
+    - localtileserver
