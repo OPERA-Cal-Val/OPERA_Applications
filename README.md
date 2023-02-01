@@ -1,7 +1,7 @@
 # OPERA_Applications
 
 [![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/OPERA-Cal-Val/OPERA_Applications.git/main)
-[![nbviewer](https://raw.githubusercontent.com/jupyter/design/master/logos/Badges/nbviewer_badge.svg)](https://nbviewer.org/github/OPERA-Cal-Val/OPERA_Applications/tree/main/)
+[![nbviewer](https://raw.githubusercontent.com/jupyter/design/master/logos/Badges/nbviewer_badge.svg)](https://nbviewer.org/github/OPERA-Cal-Val/OPERA_Applications/tree/main/?flush_cache=true)
 
 
 This repo provides an interactive introduction to the OPERA Dynamic Surface Water eXtent (DSWx) and Land Disturbance (DIST) products. 
