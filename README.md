@@ -55,6 +55,15 @@ This notebook gives examples of DSWx applications for reservoir monitoring of La
 + [Reservoir monitoring](link)
 
 ### DIST
+This includes a directory for wildfire applications.
+
+#### Intro to DIST
+This notebook highlights three main layers of DIST products and gives sample visualization of McKinney wildfire in Klamath National Forest, CA.
++ [Intro to DIST](link)
+
+#### Time slider visualization
+This notebook gives example of a time slider visualization of the area extent evolution of the McKinney wildfire from 08-01-2022 to 08-15-2022.
++ [McKinney](link)
 
 ------
 ## Contributors
