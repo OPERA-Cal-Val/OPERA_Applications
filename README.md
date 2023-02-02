@@ -71,4 +71,5 @@ This notebook gives example of a time slider visualization of the area extent ev
 * Matthew Bonnema
 * Kelly Devlin
 * Rubie Dhillon
+* Al Handwerger
 * Simran Sangha
