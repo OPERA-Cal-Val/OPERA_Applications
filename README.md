@@ -54,7 +54,7 @@ This notebook gives example of a time slider visualization of DSWx of Lake Mead,
 This notebook gives examples of DSWx applications for reservoir monitoring of Lake Mead, NV between 2014-2022.
 + [Reservoir monitoring](link)
 
-### DSWx
+### DIST
 This includes a directory for wildfire applications.
 
 #### Intro to DIST
