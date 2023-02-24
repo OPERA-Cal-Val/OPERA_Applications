@@ -51,7 +51,7 @@ This directory contains Jupyter notebooks that showcase how to interface with DS
     ├── Discover                              
     │   ├── Stream_DSWx-HLS_HTTPSvsS3.ipynb                 # Access DSWx via HTTPs and S3
     │   ├── Stream_and_Viz_DSWx-HLS_viaCMR-STAC.ipynb       # Access DSWx via CMR-STAC
-    │   └──Stream_and_Viz_DSWx-HLS_viaDirectHTTPS.ipynb     # Access DSWx via Direct HTTPS
+    │   └── Stream_and_Viz_DSWx-HLS_viaDirectHTTPS.ipynb    # Access DSWx via Direct HTTPS
     └── ...
 
 
@@ -62,7 +62,7 @@ This directory contains a Jupyter notebook that generates flood maps using provi
     .
     ├── ...
     ├── Flood                             
-    │   └── Intro_to_DSWx.ipynb                # Create flood map using DSWx from the cloud
+    │   └── DSWx_FloodProduct.ipynb                # Create flood map using DSWx from the cloud
     └── ...
 
 #### Reservoir
