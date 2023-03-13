@@ -77,7 +77,7 @@ This directory contains Jupyter notebooks that demonstrate reservoir monitoring 
 ### DIST
 The OPERA DIST product maps per pixel vegetation disturbance (specifically, vegetation cover loss) from the Harmonized Landsat-8 Sentinel-2 A/B (HLS) data. More information about OPERA DIST is available at https://www.jpl.nasa.gov/go/opera/products/dist-product-suite. Also refer to the DIST Product white paper [[here](https://d2pn8kiwq2w21t.cloudfront.net/documents/finalDIST_URS306040_a3pKEmP.pdf)] for high-level information.
 
-Below describes the subdirectories within the DSWx folder.
+Below describes the subdirectories within the DIST folder.
 
 #### Wildfire
 This notebook contains Jupyter notebooks that demonstrate widlfire applicaitons of DIST products.
