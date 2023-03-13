@@ -32,10 +32,10 @@ conda activate opera_app
 ```
 ------
 ## Jupyter Notebooks
-Please refer to each directory for notebooks for either DSWx or DIST.
-
 ### DSWx
 The OPERA DSWx product maps pixel-wise surface water detections using the Harmonized Landsat-8 Sentinel-2 A/B (HLS) data. More information about OPERA DSWx is available at https://www.jpl.nasa.gov/go/opera/products/dswx-product-suite. Also refer to the DSWx Product white paper [[here](https://d2pn8kiwq2w21t.cloudfront.net/documents/finalDSWx_URS306072_9n6sBVQ.pdf)] for high-level information.
+
+Below describes the subdirectories within the DSWx folder.
 
 #### Discover
 This directory contains Jupyter notebooks that showcase how to interface with DSWx products.
@@ -47,7 +47,6 @@ This directory contains Jupyter notebooks that showcase how to interface with DS
     │   ├── Stream_and_Viz_DSWx-HLS_viaCMR-STAC.ipynb       # Access DSWx via CMR-STAC
     │   └── Stream_and_Viz_DSWx-HLS_viaDirectHTTPS.ipynb    # Access DSWx via Direct HTTPS
     └── ...
-
 
 
 #### Flood
@@ -77,6 +76,8 @@ This directory contains Jupyter notebooks that demonstrate reservoir monitoring 
 
 ### DIST
 The OPERA DIST product maps per pixel vegetation disturbance (specifically, vegetation cover loss) from the Harmonized Landsat-8 Sentinel-2 A/B (HLS) data. More information about OPERA DIST is available at https://www.jpl.nasa.gov/go/opera/products/dist-product-suite. Also refer to the DIST Product white paper [[here](https://d2pn8kiwq2w21t.cloudfront.net/documents/finalDIST_URS306040_a3pKEmP.pdf)] for high-level information.
+
+Below describes the subdirectories within the DSWx folder.
 
 #### Wildfire
 This notebook contains Jupyter notebooks that demonstrate widlfire applicaitons of DIST products.
