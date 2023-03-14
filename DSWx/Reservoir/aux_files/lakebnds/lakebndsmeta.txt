@@ -1,0 +1,329 @@
+Identification_Information:
+  Citation:
+    Citation_Information:
+      Originator: David C. Twichell
+      Originator: VeeAnn A. Cross
+      Publication_Date: 2003
+      Title: Shapefile for the shoreline of Lake Mead
+      Geospatial_Data_Presentation_Form: vector digital data
+      Other_Citation_Details: This shapefile was modified from a shoreline acquired from the Bureau of Reclamation in Boulder City, NV.
+      Online_Linkage: http://pubs.usgs.gov/of/2003/of03-320/htmldocs/datacatalog.htm
+      Online_Linkage: http://pubs.usgs.gov/of/2003/of03-320/data/bounds/lakebnds.zip
+      Online_Linkage: http://pubs.usgs.gov/of/2009/1150/gis/basemap/lakebnds.zip
+      Larger_Work_Citation:
+        Citation_Information:
+          Originator: David C. Twichell
+          Originator: VeeAnn A. Cross
+          Originator: Stephen D. Belew
+          Publication_Date: 2003
+          Title: Mapping the floor of Lake Mead (Nevada and Arizona): Preliminary discussion and GIS data release
+          Series_Information:
+            Series_Name: Open-File Report
+            Issue_Identification: 03-320
+          Publication_Information:
+            Publication_Place: Woods Hole Field Center, Woods Hole, MA
+            Publisher: U.S. Geological Survey
+          Online_Linkage: http://pubs.usgs.gov/of/2003/of03-320/
+  Description:
+    Abstract: Lake Mead is a large interstate reservoir located in the Mojave Desert of southeastern Nevada and northwestern Arizona. It was impounded in 1935 by the construction of Hoover Dam and is one of a series of multi-purpose reservoirs on the Colorado River. The lake extends 183 km from the mouth of the Grand Canyon to Black Canyon, the site of Hoover Dam, and provides water for residential, commercial, industrial, recreational, and other non-agricultural users in communities across the southwestern United States. Extensive research has been conducted on Lake Mead, but a majority of the studies have involved determining levels of anthropogenic contaminants such as synthetic organic compounds, heavy metals and dissolved ions, furans/dioxins, and nutrient loading in lake water, sediment, and biota (Preissler, et al., 1998; Bevans et al, 1996; Bevans et al., 1998; Covay and Leiker, 1998; LaBounty and Horn, 1997; Paulson, 1981). By contrast, little work has focused on the sediments in the lake and the processes of deposition (Gould, 1951). To address these questions, sidescan-sonar imagery and high-resolution seismic-reflection profiles were collected throughout Lake Mead by the USGS in cooperation with researchers from University of Nevada Las Vegas (UNLV). These data allow a detailed mapping of the surficial geology and the distribution and thickness of sediment that has accumulated in the lake since the completion of Hoover Dam. Results indicate that the accumulation of post-impoundment sediment is primarily restricted to former river and stream beds that are now submerged below the lake while the margins of the lake appear to be devoid of post-impoundment sediment. The sediment cover along the original Colorado River bed is continuous and is typically greater than 10 m thick through much of its length. Sediment thickness in some areas exceeds 35 m while the smaller tributary valleys typically are filled with less than 4 m of sediment. Away from the river beds that are now covered with post-impoundment sediment, pre-impoundment alluvial deposits and rock outcrops are still exposed on the lake floor.
+    Purpose: This shapefile is used to delimit the bounds of Lake Mead when at full capacity (approximately 375 m elevation)
+    Supplemental_Information: This previously published dataset is provided as a courtesy in Open-File Report 1150 "Surficial Geology of the Floor of Lake Mead (Arizona and Nevada) as Defined by Sidescan-sonar Imagery, Lake Floor Topography and Post-impoundment Sediment Thickness", available online:http://pubs.usgs.gov/of/2009/1150/. Improvements have been made to this metadata file even though the originally published data have not been modified.
+  Time_Period_of_Content:
+    Time_Period_Information:
+      Single_Date/Time:
+        Calendar_Date: 2003
+    Currentness_Reference: publication date
+  Status:
+    Progress: Complete
+    Maintenance_and_Update_Frequency: None planned
+  Spatial_Domain:
+    Bounding_Coordinates:
+      West_Bounding_Coordinate: -114.896120
+      East_Bounding_Coordinate: -113.925150
+      North_Bounding_Coordinate: 36.589042
+      South_Bounding_Coordinate: 35.994675
+  Keywords:
+    Theme:
+      Theme_Keyword_Thesaurus: General
+      Theme_Keyword: ArcView
+      Theme_Keyword: bounds
+      Theme_Keyword: CMGP
+      Theme_Keyword: Coastal and Marine Geology Program
+      Theme_Keyword: OFR03-320
+      Theme_Keyword: Open-File report
+      Theme_Keyword: polygon
+      Theme_Keyword: shapefile
+      Theme_Keyword: shoreline
+      Theme_Keyword: U.S. Geological Survey
+      Theme_Keyword: USGS
+      Theme_Keyword: Woods Hole Field Center
+    Theme:
+      Theme_Keyword_Thesaurus: ISO 19115 Topic Category
+      Theme_Keyword: elevation
+      Theme_Keyword: inlandWaters
+    Place:
+      Place_Keyword_Thesaurus: General
+      Place_Keyword: Arizona
+      Place_Keyword: Black Canyon
+      Place_Keyword: Boulder Basin
+      Place_Keyword: Colorado River
+      Place_Keyword: Gregg Basin
+      Place_Keyword: Hoover Dam
+      Place_Keyword: Iceberg Canyon
+      Place_Keyword: Lake Mead
+      Place_Keyword: Las Vegas
+      Place_Keyword: Las Vegas Bay
+      Place_Keyword: Las Vegas Wash
+      Place_Keyword: Mojave Desert
+      Place_Keyword: Nevada
+      Place_Keyword: Overton Arm
+      Place_Keyword: United States
+      Place_Keyword: Virgin Basin
+      Place_Keyword: North America
+  Access_Constraints: NONE
+  Use_Constraints: The U.S. Geological Survey and the Bureau of Reclamation must be referenced as the originator of the dataset in any future products or research derived from these data.
+  Point_of_Contact:
+    Contact_Information:
+      Contact_Person_Primary:
+        Contact_Person: VeeAnn A. Cross
+        Contact_Organization: U.S. Geological Survey
+      Contact_Position: Marine Geologist
+      Contact_Address:
+        Address_Type: mailing and physical address
+        Address: 384 Woods Hole Rd.
+        City: Woods Hole
+        State_or_Province: MA
+        Postal_Code: 02543-1598
+      Contact_Voice_Telephone: (508) 548-8700 x2251
+      Contact_Facsimile_Telephone: (508) 457-2310
+      Contact_Electronic_Mail_Address: vatnipp@usgs.gov
+  Native_Data_Set_Environment: Microsoft Windows XP Version 5.1 (Build 2600) Service Pack 3; ESRI ArcCatalog 9.2.6.1500
+  Cross_Reference:
+    Citation_Information:
+      Originator: H.E. Bevans
+      Originator: S.L. Goodbred
+      Originator: J.F. Miesner
+      Originator: S.A. Watkins
+      Originator: T.S. Gross
+      Originator: N.D. Denslow
+      Originator: T. Choeb
+      Publication_Date: 1996
+      Title: Synthetic organic compounds and carp endocrinology and histology, Las Vegas Wash and Las Vegas and Callville bays of Lake Mead Nevada
+      Series_Information:
+        Series_Name: Water-Resources Investigations
+        Issue_Identification: 96-4266
+      Publication_Information:
+        Publisher: U.S. Geological Survey
+  Cross_Reference:
+    Citation_Information:
+      Originator: H.E. Bevans
+      Originator: M.S. Lico
+      Originator: S.J. Lawrence
+      Publication_Date: 1998
+      Title: Water quality in the Las Vegas Valley area and the Carson and Truckee River basins, Nevada and California, 1992-1996
+      Series_Information:
+        Series_Name: Circular
+        Issue_Identification: 1170
+      Publication_Information:
+        Publisher: U.S. Geological Survey
+  Cross_Reference:
+    Citation_Information:
+      Originator: K.J. Couvay
+      Originator: T.J. Leiker
+      Publication_Date: 1998
+      Title: Synthetic organic compounds in water and bottom sediment from streams, detention basins, and sewage-treatment plant outfalls in Las Vegas Valley, Nevada, 1997
+      Series_Information:
+        Series_Name: Open-File Report
+        Issue_Identification: 98-633
+      Publication_Information:
+        Publisher: U.S. Geological Survey
+  Cross_Reference:
+    Citation_Information:
+      Originator: H.R. Gould
+      Publication_Date: 1951
+      Title: Some quantitative aspects of Lake Mead turbidity currents
+      Series_Information:
+        Series_Name: SEPM Special Publication
+        Issue_Identification: No. 2
+      Publication_Information:
+        Publisher: Society of Economic Paleontologists and Mineralogists
+  Cross_Reference:
+    Citation_Information:
+      Originator: J.F. LaBounty
+      Originator: M.J. Horn
+      Publication_Date: 1997
+      Title: The influence of drainage from the Las Vegas Valley on the limnology of Boulder Basin, Lake Mead, Arizona-Nevada
+      Series_Information:
+        Series_Name: Journal of Lake and Reservoir Management
+        Issue_Identification: v. 13
+  Cross_Reference:
+    Citation_Information:
+      Originator: L.J. Paulson
+      Publication_Date: 1981
+      Title: Nutrient management with hydroelectric dams on the Colorado River
+      Series_Information:
+        Series_Name: Technical Report
+        Issue_Identification: #8
+      Publication_Information:
+        Publication_Place: Department of Biological Sciences, University of Nevada, Las Vegas, Nevada
+        Publisher: Lake Mead Limnological Research Center
+  Cross_Reference:
+    Citation_Information:
+      Originator: A.M. Preissler
+      Originator: G.A. Roach
+      Originator: K.A. Thomas
+      Originator: J.W. Wilson
+      Publication_Date: 1998
+      Title: Water resources data, Nevada, water year 1998
+      Series_Information:
+        Series_Name: Water Resources Data Nevada
+        Issue_Identification: NV-98-1
+      Publication_Information:
+        Publisher: U.S. Geological Survey
+Data_Quality_Information:
+  Completeness_Report: The shoreline is complete for the areas surveyed in Lake Mead.
+  Lineage:
+    Process_Step:
+      Process_Description: The original coverage was acquired from Bureau of Reclamation and represented the approximate location of the 375m contour around Lake Mead.
+      Process_Contact:
+        Contact_Information:
+          Contact_Person_Primary:
+            Contact_Person: Steve Belew
+            Contact_Organization: Bureau of Reclamation
+          Contact_Position: GIS Specialist
+          Contact_Address:
+            Address_Type: mailing address
+            Address: P.O. Box 61470
+            City: Boulder City
+            State_or_Province: NV
+            Postal_Code: 89006-1470
+          Contact_Voice_Telephone: 702-293-8150
+          Contact_Electronic_Mail_Address: sbelew@lc.usbr.gov
+    Process_Step:
+      Process_Description: The coverage was simplified somewhat by such techniques as removing some of the smaller polygons.
+      Process_Contact:
+        Contact_Information:
+          Contact_Person_Primary:
+            Contact_Person: VeeAnn A. Cross
+            Contact_Organization: U.S. Geological Survey
+          Contact_Position: Marine Geologist
+          Contact_Address:
+            Address_Type: mailing and physical address
+            Address: 384 Woods Hole Rd.
+            City: Woods Hole
+            State_or_Province: MA
+            Postal_Code: 02543-1598
+          Contact_Voice_Telephone: (508) 548-8700x2251
+          Contact_Facsimile_Telephone: (508) 457-2310
+          Contact_Electronic_Mail_Address: vatnipp@usgs.gov
+    Process_Step:
+      Process_Description: The coverage was then converted to a shapefile and converted from a UTM projection to a Geographic coordinate system.
+      Process_Contact:
+        Contact_Information:
+          Contact_Person_Primary:
+            Contact_Person: VeeAnn A. Cross
+            Contact_Organization: U.S. Geological Survey
+          Contact_Position: Marine Geologist
+          Contact_Address:
+            Address_Type: mailing and physical address
+            Address: 384 Woods Hole Rd.
+            City: Woods Hole
+            State_or_Province: MA
+            Postal_Code: 02543-1598
+          Contact_Voice_Telephone: (508) 548-8700x2251
+          Contact_Facsimile_Telephone: (508) 457-2310
+          Contact_Electronic_Mail_Address: vatnipp@usgs.gov
+Spatial_Data_Organization_Information:
+  Direct_Spatial_Reference_Method: Vector
+  Point_and_Vector_Object_Information:
+    SDTS_Terms_Description:
+      SDTS_Point_and_Vector_Object_Type: G-polygon
+      Point_and_Vector_Object_Count: 147
+Spatial_Reference_Information:
+  Horizontal_Coordinate_System_Definition:
+    Geographic:
+      Latitude_Resolution: 0.000001
+      Longitude_Resolution: 0.000001
+      Geographic_Coordinate_Units: Decimal degrees
+    Geodetic_Model:
+      Horizontal_Datum_Name: North American Datum of 1983
+      Ellipsoid_Name: Geodetic Reference System 80
+      Semi-major_Axis: 6378137.000000
+      Denominator_of_Flattening_Ratio: 298.257222
+  Vertical_Coordinate_System_Definition:
+    Altitude_System_Definition:
+      Altitude_Datum_Name: North American Vertical Datum of 1988
+      Altitude_Distance_Units: meters
+      Altitude_Encoding_Method: Implicit coordinate
+Entity_and_Attribute_Information:
+  Detailed_Description:
+    Entity_Type:
+      Entity_Type_Label: lakebnds
+    Attribute:
+      Attribute_Label: FID
+      Attribute_Definition: Internal feature number.
+      Attribute_Definition_Source: ESRI
+      Attribute_Domain_Values:
+        Unrepresentable_Domain: Sequential unique whole numbers that are automatically generated.
+    Attribute:
+      Attribute_Label: Shape
+      Attribute_Definition: Feature geometry.
+      Attribute_Definition_Source: ESRI
+      Attribute_Domain_Values:
+        Unrepresentable_Domain: Coordinates defining the features.
+    Attribute:
+      Attribute_Label: BNDTYPE
+      Attribute_Definition: indicates whether the polygon encircles land (island) or water.
+      Attribute_Definition_Source: VeeAnn A. Cross
+      Attribute_Domain_Values:
+        Unrepresentable_Domain: character set
+Distribution_Information:
+  Distributor:
+    Contact_Information:
+      Contact_Person_Primary:
+        Contact_Person: David C. Twichell
+        Contact_Organization: U.S. Geological Survey
+      Contact_Position: Oceanographer
+      Contact_Address:
+        Address_Type: mailing and physical address
+        Address: 384 Woods Hole Rd.
+        City: Woods Hole
+        State_or_Province: MA
+        Postal_Code: 02543-1598
+      Contact_Voice_Telephone: (508) 548-8700 x2266
+      Contact_Facsimile_Telephone: (508) 457-2310
+      Contact_Electronic_Mail_Address: dtwichell@usgs.gov
+  Resource_Description: Downloadable Data
+  Distribution_Liability: Neither the U.S. Government, the Department of the Interior, nor the USGS, nor any of their employees, contractors, or subcontractors, make any warranty, express or implied, nor assume any legal liability or responsibility for the accuracy, completeness, or usefulness of any information, apparatus, product, or process disclosed, nor represent that its use would not infringe on privately owned rights. The act of distribution shall not constitute any such warranty, and no responsibility is assumed by the USGS in the use of these data or related materials. Any use of trade, product, or firm names is for descriptive purposes only and does not imply endorsement by the U.S. Government.
+  Standard_Order_Process:
+    Digital_Form:
+      Digital_Transfer_Information:
+        Format_Name: WinZip
+        Format_Version_Number: 9.0
+        Format_Information_Content: This WinZip file contains a polygon shapefile of the shoreline of Lake Mead as well as the accompanying metadata.
+        Transfer_Size: 1.233 MB
+    Fees: None.
+  Technical_Prerequisites: The user must have software capable of uncompressing the WinZip file. Once uncompressed, the user must have software capable of reading the ESRI shapefile format.
+Metadata_Reference_Information:
+  Metadata_Date: 20090804
+  Metadata_Contact:
+    Contact_Information:
+      Contact_Person_Primary:
+        Contact_Person: VeeAnn A. Cross
+        Contact_Organization: U.S. Geological Survey
+      Contact_Position: Marine Geologist
+      Contact_Address:
+        Address_Type: mailing and physical address
+        Address: 384 Woods Hole Rd.
+        City: Woods Hole
+        State_or_Province: MA
+        Postal_Code: 02543-1598
+      Contact_Voice_Telephone: (508) 548-8700x2251
+      Contact_Facsimile_Telephone: (508) 457-2310
+      Contact_Electronic_Mail_Address: vatnipp@usgs.gov
+  Metadata_Standard_Name: FGDC Content Standards for Digital Geospatial Metadata
+  Metadata_Standard_Version: FGDC-STD-001-1998
+  Metadata_Time_Convention: local time
+  Metadata_Extensions:
+    Online_Linkage: http://www.esri.com/metadata/esriprof80.html
+    Profile_Name: ESRI Metadata Profile
