@@ -8,7 +8,7 @@ This repository provides a collection of interactive notebooks to the OPERA Prod
 
 ## Contents
 1. [Software Dependencies and Installation](#software-dependencies-and-installation)
-3. [Jupyter Notebooks]
+3. Jupyter Notebooks
 - [DSWx](#dswx)
     - [Discover](#discover)
     - [Flood](#flood)
