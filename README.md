@@ -8,14 +8,14 @@ This repository provides a collection of interactive notebooks to the OPERA Prod
 
 ## Contents
 1. [Software Dependencies and Installation](#software-dependencies-and-installation)
-3. Jupyter Notebooks
+2. Jupyter Notebooks
 - [DSWx](#dswx)
     - [Discover](#discover)
     - [Flood](#flood)
     - [Reservoir](#reservoir)
 - [DIST](#dist)
     - [Wildfire](#widlfire)
-4. [Key Contributors](#key-contributors)
+3. [Key Contributors](#key-contributors)
 
 ## Software Dependencies and Installation
 
@@ -38,7 +38,7 @@ The OPERA DSWx product maps pixel-wise surface water detections using the Harmon
 Below describes the subdirectories within the DSWx folder.
 
 #### Discover
-This directory contains Jupyter notebooks that showcase how to interface with DSWx products.
+This [discover directory contains]((https://github.com/OPERA-Cal-Val/OPERA_Applications/tree/main/DSWx/Discover) Jupyter notebooks that showcase how to interface with DSWx products.
 
     .
     ├── ...
@@ -59,7 +59,7 @@ The [flood directory](https://github.com/OPERA-Cal-Val/OPERA_Applications/tree/m
     └── ...
 
 #### Reservoir
-This directory contains Jupyter notebooks that demonstrate reservoir monitoring applications of provisional DSWx products over Lake Mead, NV. 
+This [reservoir directory](https://github.com/OPERA-Cal-Val/OPERA_Applications/tree/main/DSWx/Reservoir) contains Jupyter notebooks that demonstrate reservoir monitoring applications of provisional DSWx products over Lake Mead, NV. 
 
     .
     ├── ...
@@ -80,7 +80,7 @@ The OPERA DIST product maps per pixel vegetation disturbance (specifically, vege
 Below describes the subdirectories within the DIST folder.
 
 #### Wildfire
-This notebook contains Jupyter notebooks that demonstrate widlfire applicaitons of DIST products.
+This [wildfire directory](https://github.com/OPERA-Cal-Val/OPERA_Applications/tree/main/DIST/Wildfire) contains Jupyter notebooks that demonstrate widlfire applicaitons of DIST products.
 
     .
     ├── ...
