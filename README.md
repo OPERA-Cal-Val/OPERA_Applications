@@ -38,7 +38,7 @@ The OPERA DSWx product maps pixel-wise surface water detections using the Harmon
 Below describes the subdirectories within the DSWx folder.
 
 #### Discover
-This [discover directory contains]((https://github.com/OPERA-Cal-Val/OPERA_Applications/tree/main/DSWx/Discover) Jupyter notebooks that showcase how to interface with DSWx products.
+This [discover directory contains](https://github.com/OPERA-Cal-Val/OPERA_Applications/tree/main/DSWx/Discover) Jupyter notebooks that showcase how to interface with DSWx products.
 
     .
     ├── ...
