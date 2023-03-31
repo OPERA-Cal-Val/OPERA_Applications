@@ -50,7 +50,7 @@ This directory contains Jupyter notebooks that showcase how to interface with DS
 
 
 #### Flood
-This directory contains a Jupyter notebook that generates flood maps using provisional DSWx products over Pakistan.
+The [flood directory](https://github.com/OPERA-Cal-Val/OPERA_Applications/tree/main/DSWx/Flood) contains a Jupyter notebook that generates flood maps using provisional DSWx products over Pakistan.
 
     .
     ├── ...
