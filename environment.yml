@@ -26,10 +26,11 @@ dependencies:
   - rioxarray
   - xarray=0.20.2
   - pip:
+    - folium
     - gdal-utils
     - jupyterlab==3.4.3
     - jupyterlab-server==2.14.0
-    - selenium
+    - lxml
     - pystac-client
     - scikit-image
-    - folium
+    - selenium
