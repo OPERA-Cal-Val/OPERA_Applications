@@ -77,6 +77,7 @@ This [reservoir directory](https://github.com/OPERA-Cal-Val/OPERA_Applications/t
 
 #### Mosaics
 This [mosaics directory](https://github.com/OPERA-Cal-Val/OPERA_Applications/tree/main/DSWx/Mosaics) demonstrates how PO.DAAC can be programmatically queried for DSWx data over a given region, for a specified time period. The returned DSWx granules are mosaicked to return a single raster image. As motivating examples, we demonstrate this over the state of California and the entireity of Australia.
+
     .
     ├── ...
     ├── Mosaics                              
@@ -89,7 +90,6 @@ This [mosaics directory](https://github.com/OPERA-Cal-Val/OPERA_Applications/tre
     │   ├── README.md
     │   └── environment.yml                    # YAML file containing dependencies needed to run code in this folder
     └── ...
-
 
 ### DIST
 The OPERA DIST product maps per pixel vegetation disturbance (specifically, vegetation cover loss) from the Harmonized Landsat-8 Sentinel-2 A/B (HLS) data. More information about OPERA DIST is available at https://www.jpl.nasa.gov/go/opera/products/dist-product-suite. Also refer to the DIST Product white paper [[here](https://d2pn8kiwq2w21t.cloudfront.net/documents/finalDIST_URS306040_a3pKEmP.pdf)] for high-level information.
