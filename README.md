@@ -13,6 +13,7 @@ This repository provides a collection of interactive notebooks to the OPERA Prod
     - [Discover](#discover)
     - [Flood](#flood)
     - [Reservoir](#reservoir)
+    - [Mosaics](#mosaics)
 - [DIST](#dist)
     - [Wildfire](#widlfire)
 3. [Key Contributors](#key-contributors)
@@ -73,6 +74,22 @@ This [reservoir directory](https://github.com/OPERA-Cal-Val/OPERA_Applications/t
     │       ├── lakebnds/                      # 2003 Lake Mead lake bounds shapefile
     │       └── bufferlakebnds/                # Buffered Lake Mead lake bounds shapefile
     └── ...
+
+#### Mosaics
+This [mosaics directory](https://github.com/OPERA-Cal-Val/OPERA_Applications/tree/main/DSWx/Mosaics) demonstrates how PO.DAAC can be programmatically queried for DSWx data over a given region, for a specified time period. The returned DSWx granules are mosaicked to return a single raster image. As motivating examples, we demonstrate this over the state of California and the entireity of Australia.
+    .
+    ├── ...
+    ├── Mosaics                              
+    │   ├── notebooks
+    │   │   └── Create-mosaics.ipynb          # Notebook to query PO.DAAC for DSWx data and mosaic returned granules
+    │   ├── data
+    │   │   ├── shapefiles                     # Shapefiles used to query PO.DAAC
+    │   │   ├── australia                      # Folder containing example mosaicked raster over Australia
+    │   │   └── california                     # Folder containing example mosaicked raster over CA
+    │   ├── README.md
+    │   └── environment.yml                    # YAML file containing dependencies needed to run code in this folder
+    └── ...
+
 
 ### DIST
 The OPERA DIST product maps per pixel vegetation disturbance (specifically, vegetation cover loss) from the Harmonized Landsat-8 Sentinel-2 A/B (HLS) data. More information about OPERA DIST is available at https://www.jpl.nasa.gov/go/opera/products/dist-product-suite. Also refer to the DIST Product white paper [[here](https://d2pn8kiwq2w21t.cloudfront.net/documents/finalDIST_URS306040_a3pKEmP.pdf)] for high-level information.
