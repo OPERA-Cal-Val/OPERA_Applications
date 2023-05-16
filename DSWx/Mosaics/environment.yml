@@ -4,7 +4,6 @@ channels:
 dependencies:
   - geopandas
   - rasterio
-  - fiona
   - pystac-client
   - jupyterlab
   - numpy
