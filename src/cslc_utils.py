@@ -4,6 +4,7 @@ import h5py
 import numpy as np
 import fsspec
 import matplotlib.pyplot as plt
+import folium
 
 def read_cslc(h5file):
     # Load the CSLC and necessary metadata
