@@ -9,10 +9,13 @@ dependencies:
   - geopandas=0.10.2
   - geoviews=1.9.5
   - geoviews-core=1.9.5
+  - fsspec
+  - h5py
   - holoviews=1.14.9
   - hvplot=0.8.0
   - ipykernel=6.15.0
   - ipython
+  - ipympl
   - matplotlib
   - nodejs=14.18.3
   - notebook=6.4.12
@@ -24,6 +27,7 @@ dependencies:
   - requests
   - rasterio=1.2.6
   - rioxarray
+  - s3fs
   - xarray=0.20.2
   - pip:
     - folium
