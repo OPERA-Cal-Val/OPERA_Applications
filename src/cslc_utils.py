@@ -6,12 +6,19 @@ import fsspec
 import matplotlib.pyplot as plt
 import folium
 
-def read_cslc(h5file):
+def read_cslc(h5file, version='calval'):
     # Load the CSLC and necessary metadata
-    grid_path = f'data'
-    metadata_path = f'metadata'
-    burstmetadata_path = f'metadata/processing_information/input_burst_metadata'
-    id_path = f'identification'
+    if version == 'gamma':
+        DATA_ROOT = 'science/SENTINEL1'
+        grid_path = f'{DATA_ROOT}/CSLC/grids'
+        metadata_path = f'{DATA_ROOT}/CSLC/metadata'
+        burstmetadata_path = f'{DATA_ROOT}/CSLC/metadata/processing_information/s1_burst_metadata'
+        id_path = f'{DATA_ROOT}/identification'
+    else:
+        grid_path = f'data'
+        metadata_path = f'metadata'
+        burstmetadata_path = f'metadata/processing_information/input_burst_metadata'
+        id_path = f'identification'
 
     if h5file[:2] == 's3':
         print(f'Streaming: {h5file}')  
@@ -25,12 +32,19 @@ def read_cslc(h5file):
         
     return cslc
 
-def cslc_info(h5file):
+def cslc_info(h5file, version='calval'):
     # Load the CSLC and necessary metadata
-    grid_path = f'data'
-    metadata_path = f'metadata'
-    burstmetadata_path = f'metadata/processing_information/input_burst_metadata'
-    id_path = f'identification'
+    if version == 'gamma':
+        DATA_ROOT = 'science/SENTINEL1'
+        grid_path = f'{DATA_ROOT}/CSLC/grids'
+        metadata_path = f'{DATA_ROOT}/CSLC/metadata'
+        burstmetadata_path = f'{DATA_ROOT}/CSLC/metadata/processing_information/s1_burst_metadata'
+        id_path = f'{DATA_ROOT}/identification'  
+    else:
+        grid_path = f'data'
+        metadata_path = f'metadata'
+        burstmetadata_path = f'metadata/processing_information/input_burst_metadata'
+        id_path = f'identification'
 
     if h5file[:2] == 's3':
         s3f = fsspec.open(h5file, mode='rb', anon=True, default_fill_cache=False)
