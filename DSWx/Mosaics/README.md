@@ -1,0 +1,1 @@
+The notebook demonstrates mosaicking DSWx granules over areas of interest. Along the way, we also demonstrate querying and downloading DSWx data from PODAAC, and filtering results to meet cloud cover requirements

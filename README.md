@@ -8,14 +8,15 @@ This repository provides a collection of interactive notebooks to the OPERA Prod
 
 ## Contents
 1. [Software Dependencies and Installation](#software-dependencies-and-installation)
-3. [Jupyter Notebooks](jupyter-notebooks)
+2. [Jupyter Notebooks](#jupyter-notebooks)
 - [DSWx](#dswx)
     - [Discover](#discover)
     - [Flood](#flood)
     - [Reservoir](#reservoir)
+    - [Mosaics](#mosaics)
 - [DIST](#dist)
     - [Wildfire](#widlfire)
-4. [Key Contributors](#key-contributors)
+3. [Key Contributors](#key-contributors)
 
 ## Software Dependencies and Installation
 
@@ -38,7 +39,7 @@ The OPERA DSWx product maps pixel-wise surface water detections using the Harmon
 Below describes the subdirectories within the DSWx folder.
 
 #### Discover
-This directory contains Jupyter notebooks that showcase how to interface with DSWx products.
+This [discover directory](https://github.com/OPERA-Cal-Val/OPERA_Applications/tree/main/DSWx/Discover) contains Jupyter notebooks that showcase how to interface with DSWx products.
 
     .
     ├── ...
@@ -48,18 +49,33 @@ This directory contains Jupyter notebooks that showcase how to interface with DS
     │   └── Stream_and_Viz_DSWx-HLS_viaDirectHTTPS.ipynb    # Access DSWx via Direct HTTPS
     └── ...
 
-
 #### Flood
-This directory contains a Jupyter notebook that generates flood maps using provisional DSWx products over Pakistan.
+The [flood directory](https://github.com/OPERA-Cal-Val/OPERA_Applications/tree/main/DSWx/Flood) contains a Jupyter notebook that generates flood maps using provisional DSWx products over Pakistan.
 
     .
     ├── ...
     ├── Flood                             
     │   └── DSWx_FloodProduct.ipynb                # Create flood map using DSWx from the cloud
     └── ...
+    
+#### Mosaics
+This [mosaics directory](https://github.com/OPERA-Cal-Val/OPERA_Applications/tree/main/DSWx/Mosaics) demonstrates how PO.DAAC can be programmatically queried for DSWx data over a given region, for a specified time period. The returned DSWx granules are mosaicked to return a single raster image. As motivating examples, we demonstrate this over the state of California and the entireity of Australia.
+
+    .
+    ├── ...
+    ├── Mosaics                              
+    │   ├── notebooks
+    │   │   └── Create-mosaics.ipynb           # Notebook to query PO.DAAC for DSWx data and mosaic returned granules
+    │   ├── data
+    │   │   ├── shapefiles                     # Shapefiles used to query PO.DAAC
+    │   │   ├── australia                      # Folder containing example mosaicked raster over Australia
+    │   │   └── california                     # Folder containing example mosaicked raster over CA
+    │   ├── README.md
+    │   └── environment.yml                    # YAML file containing dependencies needed to run code in this folder
+    └── ...
 
 #### Reservoir
-This directory contains Jupyter notebooks that demonstrate reservoir monitoring applications of provisional DSWx products over Lake Mead, NV. 
+This [reservoir directory](https://github.com/OPERA-Cal-Val/OPERA_Applications/tree/main/DSWx/Reservoir) contains Jupyter notebooks that demonstrate reservoir monitoring applications of provisional DSWx products over Lake Mead, NV. 
 
     .
     ├── ...
@@ -79,8 +95,18 @@ The OPERA DIST product maps per pixel vegetation disturbance (specifically, vege
 
 Below describes the subdirectories within the DIST folder.
 
+#### Discover
+This [discover directory](https://github.com/OPERA-Cal-Val/OPERA_Applications/tree/main/DIST/Discover) contains Jupyter notebooks that showcase how to interface with DIST products.
+
+    .
+    ├── ...
+    ├── Discover                              
+    │   ├── Stream_and_Viz_DIST-ALERT-folium.ipynb    # Access DIST-ALERT via CMR-STAC
+    │   └── Stream_and_Viz_DIST_Functions.py          # DIST functions
+    └── ...
+
 #### Wildfire
-This notebook contains Jupyter notebooks that demonstrate widlfire applicaitons of DIST products.
+This [wildfire directory](https://github.com/OPERA-Cal-Val/OPERA_Applications/tree/main/DIST/Wildfire) contains Jupyter notebooks that demonstrate widlfire applicaitons of DIST products.
 
     .
     ├── ...
@@ -96,3 +122,4 @@ This notebook contains Jupyter notebooks that demonstrate widlfire applicaitons 
 * Mary Grace Bato
 * Kelly Devlin
 * Rubie Dhillon
+* Karthik Venkataramani

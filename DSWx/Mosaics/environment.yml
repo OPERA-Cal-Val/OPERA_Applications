@@ -1,0 +1,9 @@
+name: mosaics
+channels:
+  - conda-forge
+dependencies:
+  - geopandas
+  - rasterio
+  - pystac-client
+  - jupyterlab
+  - numpy
