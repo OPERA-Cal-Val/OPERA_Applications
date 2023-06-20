@@ -5,6 +5,22 @@ import numpy as np
 import fsspec
 import matplotlib.pyplot as plt
 import folium
+import boto3
+from botocore import UNSIGNED
+from botocore.client import Config
+
+
+def get_s3path(data_dir, burst_id, date):
+    buckt = data_dir.split("/")[2]
+    prefx = f'{data_dir.split("/")[3]}/{data_dir.split("/")[4]}/OPERA_L2_CSLC-S1A_IW_{burst_id}_VV_{date}'
+    client = boto3.client('s3', config=Config(signature_version=UNSIGNED))
+    result = client.list_objects(Bucket=buckt, Prefix=prefx, Delimiter = '/')
+    
+    for o in result.get('CommonPrefixes'):
+        path = o.get('Prefix')
+        path_h5 = (f's3://{buckt}/{path}{path.split("/")[-2]}.h5')
+
+    return path_h5
 
 def read_cslc(h5file, version='calval'):
     # Load the CSLC and necessary metadata
