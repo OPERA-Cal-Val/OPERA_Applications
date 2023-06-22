@@ -4,13 +4,12 @@
 [![nbviewer](https://raw.githubusercontent.com/jupyter/design/master/logos/Badges/nbviewer_badge.svg)](https://nbviewer.org/github/OPERA-Cal-Val/OPERA_Applications/tree/main/?flush_cache=True)
 
 
-This repository provides a collection of interactive notebooks to the OPERA Products: Coregistered Single-Look Complex (CSLC), Dynamic Surface Water eXtent (DSWx), Land Disturbance (DIST), and Displacement (DISP) products. They contain several Jupyter notebooks that provide introductions and showcase applications of these products including flood mapping, water reservoir monitoring and monitoring wildfire evolution. To get started click the launch Binder logo above. Binder will open the Jupyter notebooks in an executable environment without requiring you to install any new software. 
+This repository provides a collection of interactive notebooks to the OPERA Products: Dynamic Surface Water eXtent (DSWx), Land Disturbance (DIST), and Displacement (DISP) products. They contain several Jupyter notebooks that provide introductions and showcase applications of these products including flood mapping, water reservoir monitoring and monitoring wildfire evolution. To get started click the launch Binder logo above. Binder will open the Jupyter notebooks in an executable environment without requiring you to install any new software. 
 
 ## Contents
 1. [Software Dependencies and Installation](#software-dependencies-and-installation)
-2. [Jupyter Notebooks](#jupyter-notebooks)
-- [CSLC](#cslc)
-    - [Discover](#discover)
+2. [Usage: How to Run a Jupyter Notebook](#usage-how-to-run-a-jupyter-notebook)
+3. [Jupyter Notebooks](#jupyter-notebooks)
 - [DSWx](#dswx)
     - [Discover](#discover)
     - [Flood](#flood)
@@ -18,7 +17,7 @@ This repository provides a collection of interactive notebooks to the OPERA Prod
     - [Mosaics](#mosaics)
 - [DIST](#dist)
     - [Wildfire](#widlfire)
-3. [Key Contributors](#key-contributors)
+4. [Key Contributors](#key-contributors)
 
 ## Software Dependencies and Installation
 
@@ -33,22 +32,26 @@ Run the commands below to create a new conda environment `opera_app` and activat
 conda env create -f environment.yml
 conda activate opera_app
 ```
+## Usage: How to Run a Jupyter Notebook
+
+ Start the notebook server from the command line (using Terminal on Mac/Linux, Command Prompt on Windows) by running:
+
+```
+jupyter notebook
+```
+This will print some information about the notebook server in your terminal, including the URL of the web application (by default, http://localhost:8888):
+
+```c
+[I 15:55:02.043 NotebookApp] Serving notebooks from local directory: /Users/home/
+[I 15:55:02.043 NotebookApp] Jupyter Notebook 6.4.12 is running at: http://localhost:8888/
+```
+
+The Jupyter Notebook application will then open in your default web browser to this URL, and you will see the contents of the directory in which the notebook server was started. Select a notebook, and it will open in a secondary browser tab for you to run and explore.
+
+**Note:** For easy navigation, it is suggested to start a notebook server in the highest level directory in your file system that contains notebooks. See the Jupyter documentation on [Running the Notebook](https://docs.jupyter.org/en/latest/running.html) for additional details.
+
 ------
 ## Jupyter Notebooks
-### CSLC
-The OPERA CSLC product provides geocoded burst-wise complex data containing both the amplitude and phase information from Sentinel-1 (S1). More information about OPERA CSLC is available at https://www.jpl.nasa.gov/go/opera/products/cslc-product-suite. Also refer to the CSLC Product white paper [[here](https://d2pn8kiwq2w21t.cloudfront.net/documents/finalCSLC_URS310287.pdf)] for high-level information.
-
-Below describes the subdirectories within the CSLC folder.
-
-#### Discover
-This [discover directory](https://github.com/OPERA-Cal-Val/OPERA_Applications/tree/main/CSLC/Discover) contains Jupyter notebooks that showcase how to interface with CSLC products.
-
-    .
-    ├── ...
-    ├── Discover                             
-    │   └── Create_Interferogram_by_streaming_CSLC-S1.ipynb    # Access CSLC via S3
-    └── ...
-    
 ### DSWx
 The OPERA DSWx product maps pixel-wise surface water detections using the Harmonized Landsat-8 Sentinel-2 A/B (HLS) data. More information about OPERA DSWx is available at https://www.jpl.nasa.gov/go/opera/products/dswx-product-suite. Also refer to the DSWx Product white paper [[here](https://d2pn8kiwq2w21t.cloudfront.net/documents/finalDSWx_URS306072_9n6sBVQ.pdf)] for high-level information.
 
