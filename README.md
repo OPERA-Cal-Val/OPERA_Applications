@@ -16,6 +16,7 @@ This repository provides a collection of interactive notebooks to the OPERA Prod
     - [Mosaics](#mosaics)
 - [DIST](#dist)
     - [Wildfire](#widlfire)
+- [RTC-S1](#rtc)
 3. [Key Contributors](#key-contributors)
 
 ## Software Dependencies and Installation
@@ -91,16 +92,17 @@ This [reservoir directory](https://github.com/OPERA-Cal-Val/OPERA_Applications/t
     └── ...
 
 ### RTC
-The RTC-S1 product is a Level 2 product that contains Sentinel-1 backscatter normalized with respect to the topography and projected onto pre-defined UTM/Polar stereographic map projection systems. The Copernicus global 30 m (GLO-30) Digital Elevation Model (DEM) is the reference DEM used to correct for the impacts of topography and to geocode the product. The RTC product maps signals largely related to the physical properties of the ground scattering objects, such as surface roughness and soil moisture and/or vegetation. The product is provided in a GeoTIFF file format and has a posting of 30 m. All products will be accessible through the Alaska Satellite Facility Distributed Active Archive Center (ASF DAAC).
+The RTC-S1 product is a Level 2 product that contains Sentinel-1 backscatter normalized with respect to the topography and projected onto pre-defined UTM/Polar stereographic map projection systems. The Copernicus global 30 m (GLO-30) Digital Elevation Model (DEM) is the reference DEM used to correct for the impacts of topography and to geocode the product. The RTC product maps signals largely related to the physical properties of the ground scattering objects, such as surface roughness and soil moisture and/or vegetation. The product is provided in a GeoTIFF file format and has a resolution of 30 m. All products will be accessible through the Alaska Satellite Facility Distributed Active Archive Center (ASF DAAC).
 
 Below describes the subdirectories within the RTC folder.
-.
-├── ...
-├── notebooks                            
-│   ├── RTC_notebook.ipynb    # Notebook demonstrating streaming, mosaicking, and visualizing RTC data
-│   └── rtc_utils.py          # helper functions for notebook
-├── README.md       
-└── ...
+
+    .
+    ├── ...
+    ├── notebooks                            
+    │   ├── RTC_notebook.ipynb    # Notebook demonstrating streaming, mosaicking, and visualizing RTC data
+    │   └── rtc_utils.py          # helper functions for notebook
+    ├── README.md       
+    └── ...
 
 ### DIST
 The OPERA DIST product maps per pixel vegetation disturbance (specifically, vegetation cover loss) from the Harmonized Landsat-8 Sentinel-2 A/B (HLS) data. More information about OPERA DIST is available at https://www.jpl.nasa.gov/go/opera/products/dist-product-suite. Also refer to the DIST Product white paper [[here](https://d2pn8kiwq2w21t.cloudfront.net/documents/finalDIST_URS306040_a3pKEmP.pdf)] for high-level information.
