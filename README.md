@@ -3,7 +3,7 @@
 [![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/OPERA-Cal-Val/OPERA_Applications.git/main)
 [![nbviewer](https://raw.githubusercontent.com/jupyter/design/master/logos/Badges/nbviewer_badge.svg)](https://nbviewer.org/github/OPERA-Cal-Val/OPERA_Applications/tree/main/?flush_cache=True)
 
-This repository provides a collection of interactive notebooks to the OPERA Products: Coregistered Single-Look Complex (CSLC), Dynamic Surface Water eXtent (DSWx), Land Disturbance (DIST), and Displacement (DISP) products. They contain several Jupyter notebooks that provide introductions and showcase applications of these products including flood mapping, water reservoir monitoring and monitoring wildfire evolution. To get started click the launch Binder logo above. Binder will open the Jupyter notebooks in an executable environment without requiring you to install any new software. 
+This repository provides a collection of interactive notebooks to the OPERA Products: Coregistered Single-Look Complex (CSLC), Dynamic Surface Water eXtent (DSWx), Land Disturbance (DIST), Radiometric and Terrain Corrected Sentinel-1 (RTC-S1), and Displacement (DISP) products. They contain several Jupyter notebooks that provide introductions and showcase applications of these products including flood mapping, water reservoir monitoring and monitoring wildfire evolution. To get started click the launch Binder logo above. Binder will open the Jupyter notebooks in an executable environment without requiring you to install any new software. 
 
 ## Contents
 1. [Software Dependencies and Installation](#software-dependencies-and-installation)
