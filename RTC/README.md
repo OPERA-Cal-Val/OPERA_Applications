@@ -1,0 +1,1 @@
+This repository demonstrates mosaicking and visualizing OPERA RTC-S1 images 

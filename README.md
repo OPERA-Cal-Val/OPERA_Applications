@@ -3,7 +3,6 @@
 [![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/OPERA-Cal-Val/OPERA_Applications.git/main)
 [![nbviewer](https://raw.githubusercontent.com/jupyter/design/master/logos/Badges/nbviewer_badge.svg)](https://nbviewer.org/github/OPERA-Cal-Val/OPERA_Applications/tree/main/?flush_cache=True)
 
-
 This repository provides a collection of interactive notebooks to the OPERA Products: Coregistered Single-Look Complex (CSLC), Dynamic Surface Water eXtent (DSWx), Land Disturbance (DIST), and Displacement (DISP) products. They contain several Jupyter notebooks that provide introductions and showcase applications of these products including flood mapping, water reservoir monitoring and monitoring wildfire evolution. To get started click the launch Binder logo above. Binder will open the Jupyter notebooks in an executable environment without requiring you to install any new software. 
 
 ## Contents
@@ -19,6 +18,7 @@ This repository provides a collection of interactive notebooks to the OPERA Prod
         - [Mosaics](#mosaics)
     - [DIST](#dist)
         - [Wildfire](#wildfire)
+    - [RTC-S1](#rtc)
 4. [Key Contributors](#key-contributors)
 
 ## Software Dependencies and Installation
@@ -150,7 +150,20 @@ This [wildfire directory](https://github.com/OPERA-Cal-Val/OPERA_Applications/tr
     │   └── aux_files
     │       └── McKinney_NIFC                  # Perimeter of 2022 McKinney wildfire
     └── ...
-    
+
+### RTC
+The RTC-S1 product is a Level 2 product that contains Sentinel-1 backscatter normalized with respect to the topography and projected onto pre-defined UTM/Polar stereographic map projection systems. The Copernicus global 30 m (GLO-30) Digital Elevation Model (DEM) is the reference DEM used to correct for the impacts of topography and to geocode the product. The RTC product maps signals largely related to the physical properties of the ground scattering objects, such as surface roughness and soil moisture and/or vegetation. The product is provided in a GeoTIFF file format and has a resolution of 30 m. All products will be accessible through the Alaska Satellite Facility Distributed Active Archive Center (ASF DAAC).
+
+Below describes the subdirectories within the RTC folder.
+
+    .
+    ├── ...
+    ├── notebooks                            
+    │   ├── RTC_notebook.ipynb    # Notebook demonstrating streaming, mosaicking, and visualizing RTC data
+    │   └── rtc_utils.py          # helper functions for notebook
+    ├── README.md       
+    └── ...
+
 ------
 ## Key Contributors
 * Mary Grace Bato
