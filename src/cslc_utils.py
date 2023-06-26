@@ -84,9 +84,8 @@ def cslc_info(h5file, version='calval'):
         
     return xcoor, ycoor, dx, dy, epsg, bounding_polygon, orbit_direction
 
-def rasterWrite(outtif,arr,transform,epsg,dtype='float32'):
-    #writing geotiff using rasterio
-    
+def rasterWrite(outtif,arr,transform,epsg,dtype=[],nodata=np.nan):
+    #writing geotiff using rasterio  
     new_dataset = rasterio.open(outtif, 'w', driver='GTiff',
                             height = arr.shape[0], width = arr.shape[1],
                             count=1, dtype=dtype,
