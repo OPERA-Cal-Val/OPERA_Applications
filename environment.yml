@@ -1,4 +1,4 @@
-name: opera_app_testing
+name: opera_app
 channels:
   - conda-forge
   - defaults
