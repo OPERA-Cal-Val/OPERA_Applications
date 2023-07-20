@@ -5,17 +5,25 @@ channels:
 dependencies:
   - bokeh=2.4.3
   - boto3
-  - gdal=3.2.2
+  - gdal>=3.6.2
   - geopandas=0.10.2
   - geoviews=1.9.5
   - geoviews-core=1.9.5
+  - folium
   - fsspec
   - h5py
   - holoviews=1.14.9
   - hvplot=0.8.0
+  - imageio=2.31.1
   - ipykernel=6.15.0
+  - ipyleaflet
   - ipython
   - ipympl
+  - jupyterlab==3.4.3
+  - jupyterlab_server==2.14.0
+  - leafmap
+  - localtileserver
+  - lxml
   - matplotlib
   - nodejs=14.18.3
   - notebook=6.4.12
@@ -23,18 +31,14 @@ dependencies:
   - numpy=1.21.6
   - panel=0.13.1
   - pip
-  - python=3.7
+  - pystac-client==0.5.1
+  - python>=3.10
   - requests
-  - rasterio=1.2.6
+  - rasterio>=1.2.6
   - rioxarray
-  - s3fs
+  - scikit-image
+  - selenium
+  - s3fs>=2021.8.0
   - xarray=0.20.2
   - pip:
-    - folium
     - gdal-utils
-    - jupyterlab==3.4.3
-    - jupyterlab-server==2.14.0
-    - lxml
-    - pystac-client
-    - scikit-image
-    - selenium
