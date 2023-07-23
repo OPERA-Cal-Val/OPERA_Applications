@@ -25,7 +25,7 @@ dependencies:
   - localtileserver
   - lxml
   - matplotlib
-  - nodejs=14.18.3
+  - nodejs=18.16.1
   - notebook=6.4.12
   - numba=0.55.1
   - numpy=1.21.6
