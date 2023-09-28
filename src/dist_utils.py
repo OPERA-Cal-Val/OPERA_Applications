@@ -6,13 +6,13 @@ from datetime import datetime, timedelta
 import pandas as pd
 import xarray as xr
 import rasterio as rio
+from rasterio.merge import merge
 import rioxarray
 from osgeo import gdal
 import numpy as np
 import numpy.ma as ma
 import folium
 from shapely.geometry import shape, Point, Polygon
-from shapely.ops import transform
 import matplotlib as mpl
 import matplotlib.pyplot as plt
 from netrc import netrc
@@ -533,22 +533,18 @@ def mask_rasters(merged_VEG_ANOM_MAX, merged_VEG_DIST_DATE, merged_VEG_DIST_STAT
     
     return masked_VEG_ANOM_MAX, masked_VEG_DIST_DATE, masked_VEG_DIST_STATUS
 
-def merge_rasters(input_files, output_file, bounds=None, write=True):
+def merge_rasters(input_files, output_file, write=True):
     """
     Function to take a list of raster tiles, mosaic them using rasterio, and output the file.
     :param input_files: list of input raster files 
     """
-    from rasterio.merge import merge
 
     # Open the input rasters and retrieve metadata
     src_files = [rio.open(file) for file in input_files]
     meta = src_files[0].meta
     
     #mosaic the src_files
-    if bounds is None:
-        mosaic, out_trans = merge(src_files)
-    else:
-        mosaic, out_trans = merge(src_files, bounds)
+    mosaic, out_trans = merge(src_files)
 
     # Update the metadata
     out_meta = meta.copy()
@@ -684,3 +680,148 @@ def transform_data_for_folium(url=[]):
     colormap = mpl.colormaps["hot_r"]
     
     return reproj, colormap
+
+### Functions below this point are in-progress ###
+
+def merge_and_stack_geotiffs(input_files, bandlist, output_file):
+    '''
+    Produces a merged multiband raster from individual multiband rasters.
+            Parameters:
+                    input_files (list): List of url roots
+                    For example, ['https://data.lpdaac.earthdatacloud.nasa.gov/lp-prod-protected/HLSL30.020/HLS.L30.T21LZH.2022175T133807.v2.0/HLS.L30.T21LZH.2022175T133807.v2.0.']
+                    bandlist (list): List of bands ['B04', 'B03', 'B02']
+                    output_file: filepath and name with file extension (e.g., .tif)
+            Returns:
+                    None
+    '''
+
+    # Get a list of the full file paths for each single band raster
+    all_filepaths = []
+    for file in input_files:
+        filepaths = []
+        for band in bandlist:
+            filepaths.append(file+band+'.tif')
+        all_filepaths.append(filepaths)
+
+    merged_data = {}
+    
+    for filepath in all_filepaths:
+        for file in filepath:
+            band_suffix = file.split('.')[-2]
+            if band_suffix not in merged_data:
+                merged_data[band_suffix] = []
+
+    for filepath in all_filepaths:
+        for file in filepath:
+            band_suffix = file.split('.')[-2]
+            with rio.open(file) as src:
+                data = src.read(1)
+                merged_data[band_suffix].append(data)
+
+    # Merge bands with the same suffix (trying the clipping step here too)
+    for band_suffix, band_data_list in merged_data.items():
+        merged_data[band_suffix] = np.maximum.reduce(band_data_list)
+
+    # Stack the merged bands into a single multi-band array
+    stacked_data = np.stack(list(merged_data.values()), axis=0)
+
+    # # # Update metadata to have the correct number of bands
+    meta = None
+    with rio.open(all_filepaths[0][0]) as src:
+        meta = src.meta.copy()
+        meta.update(count=len(merged_data))
+        
+    # Write the stacked data to the output file
+    with rio.open(output_file, 'w', **meta) as dst:
+        dst.write(stacked_data)
+                                                                                                                                                            
+    return 
+
+def make_rendering(raster, product, output_file):
+    '''
+    Produces a rendered version of an input raster.
+            Parameters:
+                    raster (raster): full filepath for input raster.
+                    product (str): type of output ('true', 'false', 'ndvi')
+                    output_file: filepath and name with file extension (e.g., .tif)
+            Returns:
+                    None
+    '''
+
+    print('making hls true color rendering...')
+
+    # make output subdirectory, if not already present
+    out_dir = 'tifs/'
+    os.makedirs(os.path.dirname(out_dir), exist_ok=True)
+
+    # get crs and transform
+    with rio.open(merged_raster, mode='r') as src:
+        transform = src.transform
+        crs = src.crs
+        nir = src.read(1)
+        red = src.read(2)
+        green = src.read(3)
+        blue = src.read(4)
+
+        nirClipped = clipPercentile(nir)
+        redClipped = clipPercentile(red)
+        greenClipped = clipPercentile(green)
+        blueClipped = clipPercentile(blue)
+        nirClipped_scaled = scaleto255(nirClipped)
+        redClipped_scaled = scaleto255(redClipped)
+        greenClipped_scaled = scaleto255(greenClipped)
+        blueClipped_scaled = scaleto255(blueClipped)
+
+        #compute NDVI
+        ndvi = (nir - red) / (nir + red)
+        mask = (ndvi > 0) & (ndvi < 1)
+        ndvi_cor = np.ma.masked_array(ndvi, ~mask)
+        
+        ndviClipped = clipPercentile(ndvi_cor)
+        ndviClipped_scaled = scaleto255(ndviClipped)
+    
+    if product == 'true':
+       cube = np.stack((redClipped_scaled, blueClipped_scaled, greenClipped_scaled)).astype('uint8')
+       dataset = rio.open(
+            str(out_dir+output_file),
+            'w',
+            driver='GTiff',
+            height=cube.shape[1],
+            width=cube.shape[2],
+            count=3,
+            dtype=cube.dtype,
+            crs=crs,
+            transform=transform
+            )
+    elif product == 'false':
+       cube = np.stack((nirClipped_scaled, blueClipped_scaled, greenClipped_scaled)).astype('uint8')
+       dataset = rio.open(
+            str(out_dir+output_file),
+            'w',
+            driver='GTiff',
+            height=cube.shape[1],
+            width=cube.shape[2],
+            count=3,
+            dtype=cube.dtype,
+            crs=crs,
+            transform=transform
+            )
+    elif product == 'ndvi':
+        cube = np.reshape(ndviClipped_scaled, (1, ndviClipped_scaled.shape[0], ndviClipped_scaled.shape[1])).astype('uint8')
+        dataset = rio.open(
+            str(out_dir+output_file),
+            'w',
+            driver='GTiff',
+            height=cube.shape[1],
+            width=cube.shape[2],
+            count=1,
+            dtype=cube.dtype,
+            crs=crs,
+            transform=transform
+        )
+
+    dataset.write(cube)
+    dataset.close() 
+
+    print(output_file+' written successfully.')
+    return
