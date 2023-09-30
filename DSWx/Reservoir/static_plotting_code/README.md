@@ -1,0 +1,1 @@
+![Sample plot of HLS basemap overlaid with OPERA DSWx data over Lake Mead](../plots/20230331.png "OPERA DSWx over Lake Mead")
