@@ -18,7 +18,7 @@ def main():
     band_ids = ["B01", "B03", "B04"]
     tile_ids = ["T11SPA", "T11SPV", "T11SQA", "T11SQV"]
     aws_prefix = "https://opera-pst-rs-pop1.s3.us-west-2.amazonaws.com"
-    file_manifest = Path('../dswx_recursive.txt')
+    file_manifest = Path('../data/dswx_recursive.txt')
 
     tile_list = defaultdict(list)
     with open(file_manifest, 'r') as f:
