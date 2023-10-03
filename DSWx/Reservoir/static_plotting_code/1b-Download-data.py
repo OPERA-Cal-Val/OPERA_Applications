@@ -18,7 +18,7 @@ def download_one_tile(tile_url):
 def main():
     suffixes = {"B01": "_B01_WTR.tif", "B03": "_B03_CONF.tif", "B04": "_B04_DIAG.tif"}
     aws_prefix = "https://opera-pst-rs-pop1.s3.us-west-2.amazonaws.com/"
-    file_manifest = Path('../lake_mead_dswx_manifest.txt')
+    file_manifest = Path('../data/lake_mead_dswx_manifest.txt')
 
     with open(file_manifest, 'r') as f:
         lines = f.readlines()
