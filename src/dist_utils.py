@@ -755,7 +755,7 @@ def make_rendering(raster, product, output_file):
     os.makedirs(os.path.dirname(out_dir), exist_ok=True)
 
     # get crs and transform
-    with rio.open(merged_raster, mode='r') as src:
+    with rio.open(raster, mode='r') as src:
         transform = src.transform
         crs = src.crs
         nir = src.read(1)
