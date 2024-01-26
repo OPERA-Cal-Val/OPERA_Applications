@@ -33,6 +33,7 @@ dependencies:
   - pip
   - pystac-client==0.5.1
   - python>=3.10
+  - rasterstats
   - requests
   - rasterio>=1.2.6
   - rioxarray
