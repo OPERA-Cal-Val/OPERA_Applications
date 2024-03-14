@@ -21,7 +21,7 @@ dependencies:
   - ipympl
   - jupyterlab==3.4.3
   - jupyterlab_server==2.14.0
-  - leafmap
+  - leafmap>=0.30
   - localtileserver
   - lxml
   - matplotlib
@@ -42,4 +42,5 @@ dependencies:
   - s3fs>=2021.8.0
   - xarray=0.20.2
   - pip:
+    - earthaccess
     - gdal-utils
