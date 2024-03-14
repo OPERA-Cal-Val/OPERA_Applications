@@ -38,6 +38,7 @@ dependencies:
   - rasterio>=1.2.6
   - rioxarray
   - scikit-image
+  - scipy
   - selenium
   - s3fs>=2021.8.0
   - xarray=0.20.2
