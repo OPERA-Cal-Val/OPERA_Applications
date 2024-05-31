@@ -1,11 +1,36 @@
-from pystac.item import Item
-from typing import Dict, Any
-from shapely.geometry import shape
-from matplotlib.colors import ListedColormap
-import rioxarray
-import rasterio as rio
-import numpy as np
+from typing import Any, Dict
+
+import boto3
+import fnmatch
 import folium
+import fsspec
+import numpy as np
+import rasterio as rio
+import rioxarray
+from botocore import UNSIGNED
+from botocore.client import Config
+from matplotlib.colors import ListedColormap
+from pystac.item import Item
+from shapely.geometry import shape
+
+# Query s3 for files
+def query_s3_bucket(bucket_name, wildcard_pattern):
+    '''Query s3 for all DSWx sample products
+    '''
+    # Initialize a session using an unsigned S3 client
+    s3 = boto3.client('s3', config=Config(signature_version=UNSIGNED))
+
+    paginator = s3.get_paginator('list_objects_v2')
+    files = []
+
+    for page in paginator.paginate(Bucket=bucket_name):
+        if 'Contents' in page:
+            for obj in page['Contents']:
+                key = obj['Key']
+                if fnmatch.fnmatch(key, wildcard_pattern):
+                    files.append(f's3://{bucket_name}/{key}')
+    
+    return files
 
 # Function to calculate percentage overlap between user-defined bbox and dswx tile
 def intersection_percent(item: Item, aoi: Dict[str, Any]) -> float:
@@ -78,11 +103,14 @@ def getbasemaps():
     return basemaps
 
 # Transform the data to Folium projection
-def transform_data_for_folium(url=[]):
-    src = rioxarray.open_rasterio(url)
-    reproj = src.rio.reproject("EPSG:4326")             # Folium maps are in EPSG:4326
+def transform_data_for_folium(og_url=[]):
 
-    with rio.open(url) as ds:
-        colormap = ds.colormap(1)
+    # handle properly if s3 links
+    with fsspec.open(og_url, mode='rb', anon=True, default_fill_cache=False) as url:
+        with rioxarray.open_rasterio(url) as src:
+            reproj = src.rio.reproject("EPSG:4326")             # Folium maps are in EPSG:4326
+        
+        with rio.open(url) as ds:
+            colormap = ds.colormap(1)
 
     return reproj, colormap
