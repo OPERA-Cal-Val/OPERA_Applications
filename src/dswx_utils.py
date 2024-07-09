@@ -104,19 +104,24 @@ def getbasemaps():
 
 # Transform the data to Folium projection
 def transform_data_for_folium(og_url=[]):
-
+    target_resolution = (0.000269, 0.000269)
+    dst_crs = 'EPSG:4326'
     if not og_url.startswith('http'):
         # handle properly if s3 links
-        with fsspec.open(og_url, mode='rb', anon=True, default_fill_cache=False) as url:
+        with fsspec.open(og_url, mode='rb', 
+                         anon=True, default_fill_cache=False) as url:
             with rioxarray.open_rasterio(url) as src:
                 # Folium maps are in EPSG:4326
-                reproj = src.rio.reproject("EPSG:4326")
+                reproj = src.rio.reproject('EPSG:4326',
+                                           resolution=target_resolution)
         
             with rio.open(url) as ds:
                 colormap = ds.colormap(1)
     else:
         src = rioxarray.open_rasterio(og_url)
-        reproj = src.rio.reproject("EPSG:4326")             # Folium maps are in EPSG:4326
+        # Folium maps are in EPSG:4326
+        reproj = src.rio.reproject('EPSG:4326', 
+                                   resolution=target_resolution)
 
         with rio.open(og_url) as ds:
             colormap = ds.colormap(1)
