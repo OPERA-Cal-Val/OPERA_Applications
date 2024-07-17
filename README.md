@@ -18,7 +18,7 @@ This repository provides a collection of interactive notebooks to the OPERA Prod
         - [Mosaics](#mosaics)
     - [DIST](#dist)
         - [Wildfire](#wildfire)
-    - [RTC-S1](#rtc)
+    - [RTC](#rtc)
 4. [Key Contributors](#key-contributors)
 
 ## Software Dependencies and Installation
@@ -170,3 +170,5 @@ Below describes the subdirectories within the RTC folder.
 * Kelly Devlin
 * Rubie Dhillon
 * Karthik Venkataramani
+* Cole Speed
+* Simran Sangha
