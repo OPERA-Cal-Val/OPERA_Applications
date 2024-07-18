@@ -1,24 +1,27 @@
 import rasterio
 from rasterio.crs import CRS
 import h5py
+import gc
 import numpy as np
 import fsspec
+import shapely.wkt as wkt
 import matplotlib.pyplot as plt
 import folium
 import boto3
 from botocore import UNSIGNED
 from botocore.client import Config
+from collections import namedtuple
 
 
 def get_s3path(data_dir, burst_id, date):
-    buckt = data_dir.split("/")[2]
+    bucket = data_dir.split("/")[2]
     prefx = f'{data_dir.split("/")[3]}/{data_dir.split("/")[4]}/OPERA_L2_CSLC-S1A_IW_{burst_id}_VV_{date}'
     client = boto3.client('s3', config=Config(signature_version=UNSIGNED))
-    result = client.list_objects(Bucket=buckt, Prefix=prefx, Delimiter = '/')
+    result = client.list_objects(Bucket=bucket, Prefix=prefx, Delimiter = '/')
     
     for o in result.get('CommonPrefixes'):
         path = o.get('Prefix')
-        path_h5 = (f's3://{buckt}/{path}{path.split("/")[-2]}.h5')
+        path_h5 = (f's3://{bucket}/{path}{path.split("/")[-2]}.h5')
 
     return path_h5
 
@@ -41,11 +44,14 @@ def read_cslc(h5file, version='calval'):
         s3f = fsspec.open(h5file, mode='rb', anon=True, default_fill_cache=False)
         with h5py.File(s3f.open(),'r') as h5:
             cslc = h5[f'{grid_path}/VV'][:]
+        del s3f
     else:
         with h5py.File(h5file,'r') as h5:
             print(f'Opening: {h5file}')  
             cslc = h5[f'{grid_path}/VV'][:]
-        
+    # Collect garbage
+    del h5
+    gc.collect()
     return cslc
 
 def cslc_info(h5file, version='calval'):
@@ -81,8 +87,12 @@ def cslc_info(h5file, version='calval'):
             epsg = h5[f'{grid_path}/projection'][()].astype(int)
             bounding_polygon =h5[f'{id_path}/bounding_polygon'][()].astype(str) 
             orbit_direction = h5[f'{id_path}/orbit_pass_direction'][()].astype(str)
-        
-    return xcoor, ycoor, dx, dy, epsg, bounding_polygon, orbit_direction
+    cslc = namedtuple('burst_info', ['x_coord', 'y_coord', 'dx', 'dy',
+                                     'epsg', 'bbox', 'orbit_direction'])
+    cslc_poly = wkt.loads(bounding_polygon)
+    bbox = [cslc_poly.bounds[0], cslc_poly.bounds[2],
+            cslc_poly.bounds[1], cslc_poly.bounds[3]]
+    return cslc(xcoor, ycoor, dx, dy, epsg, bbox, orbit_direction)
 
 def rasterWrite(outtif,arr,transform,epsg,dtype='float32'):
     #writing geotiff using rasterio
