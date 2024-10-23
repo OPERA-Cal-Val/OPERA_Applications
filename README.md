@@ -140,7 +140,7 @@ This [discover directory](https://github.com/OPERA-Cal-Val/OPERA_Applications/tr
     └── ...
 
 #### Wildfire
-This [wildfire directory](https://github.com/OPERA-Cal-Val/OPERA_Applications/tree/main/DIST/Wildfire) contains Jupyter notebooks that demonstrate widlfire applicaitons of DIST products.
+This [wildfire directory](https://github.com/OPERA-Cal-Val/OPERA_Applications/tree/main/DIST/DIST_ALERT/Wildfire) contains Jupyter notebooks that demonstrate widlfire applicaitons of DIST products.
 
     .
     ├── ...
