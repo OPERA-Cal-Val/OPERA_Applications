@@ -3,10 +3,10 @@
 Instructions derived and modified from https://github.com/nisar-solid/ATBD/blob/main/docs/installation.md and 
 https://github.com/OPERA-Cal-Val/calval-DISP/blob/main/docs/installation.md/
 
-Prepared by: Bryan Raimbault
-             Simran Sangha
-             Jin Woo Kim
-             Alexander Handwerger
+Prepared by: Bryan Raimbault,
+             Simran Sangha,
+             Jin Woo Kim,
+             Alexander Handwerger,
              Grace Bato
 
 ### 1. Install conda
@@ -173,7 +173,7 @@ run2_prep_mintpy_opera.py \
 ```
 
 Note: 
-`--apply-mask` applies the `recommended_mask` layer that is embedded within the DISP-S1 nominal product (i.e. *.nc) **at each epoch**. The `recommended_mask` is a suggested mask to remove low quality pixels, where 0 indicates a bad pixel, 1 is a good pixel.
+`--apply-mask` applies the `recommended_mask` layer that is embedded within each of the DISP-S1 nominal product (i.e. *.nc) **on an epoch based**. The `recommended_mask` is the suggested mask to remove low quality pixels, where 0 indicates a bad pixel, 1 is a good pixel.
 
 ### 8. How to view the data?
 In a terminal, you can visualize the timeseries.h5 newly created with the MintPy tools.
@@ -185,7 +185,7 @@ tsview.py \
 ```
 
 Note: 
-`recommended_mask90threshold.h5` is based on the time-series of `recommended_mask` layers. We picked the top 90% representing the "reliable pixels in time" after normalizing the `recommended_mask` against the total number of epoch/dataset. 
+`recommended_mask90threshold.h5` is based on the time-series of `recommended_mask` layers (i.e. `recommended_mask.h5`). We picked the top 90% representing the "most reliable pixels in time" after normalizing the `recommended_mask` against the total number of epoch/dataset. 
 
 ### 9. Quick view of a .nc file
 In the following, you can open a interactive python window within the environment to see some 
