@@ -9,6 +9,7 @@ dependencies:
   - awscli
   - boto3
   - cartopy
+  - contextily
   - dem_stitcher>=2.5.8
   - gdal>=3.4.1
   - libgdal-netcdf
@@ -25,6 +26,7 @@ dependencies:
   - netcdf4
   - libnetcdf
   - opera-utils
+  - pyresample
   - pandas
   - pip
   - pyproj
