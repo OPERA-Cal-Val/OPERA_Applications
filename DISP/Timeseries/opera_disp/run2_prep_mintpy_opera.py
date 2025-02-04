@@ -332,7 +332,7 @@ def create_reliability_mask(mask_file, meta, threshold_ratio=0.9):
             # convert to binary array tracking nodata values
             mask_timeseries = build_array_in_chunks(mask_timeseries)
             # Sum up the valid pixels (1's) across time
-            sum_valid = np.sum(mask_timeseries, axis=0)
+            sum_valid = np.nansum(mask_timeseries, axis=0)
             # Calculate the threshold number of valid observations required
             threshold = int(num_images * threshold_ratio)
             # Create the final reliability mask
@@ -468,15 +468,12 @@ def _get_date_pairs(filenames):
     str_list = [Path(f).stem for f in filenames]
     basenames_noext = [str(f).replace(full_suffix(f), "") for f in str_list]
 
-    # access dates from beta products differently than from golden outputs
     date_pairs = []
     for i in basenames_noext:
         num_parts = i.split('_')
         if len(num_parts) == 9:
             date_pair = f'{num_parts[6][:8]}_{num_parts[7][:8]}'
             date_pairs.append(date_pair)
-        if len(num_parts) == 2:
-            date_pairs.append(i)
 
     return date_pairs
 
@@ -516,11 +513,17 @@ def save_stack(
         prog_bar = ptime.progressBar(maxValue=num_file)
         for i,file_inc in enumerate(file_list):
             # read data using gdal
-            data = load_gdal(file_inc, masked=True)
-
-            # if v0.8, convert array to 1s to circumvent empty mask bug
-            if track_version == Version('0.8'):
-                data = np.ones_like(data)               
+            # if <v0.8, recommended_mask layer does not exist
+            # if v0.8 there is an empty mask bug
+            # for both cases pass array of 1s
+            if (
+                track_version <= Version('0.8')
+                and reflyr_name == 'recommended_mask'
+            ):
+                data = np.ones_like(water_mask, dtype=np.byte)
+            else:
+                # read data using gdal
+                data = load_gdal(file_inc, masked=True)           
 
             # apply reference point, if not None
             if ref_y is not None and ref_x is not None:
@@ -531,7 +534,10 @@ def save_stack(
                 mask_lyr = file_inc.replace(reflyr_name, dict_key)
                 mask_thres = mask_dict[dict_key]
                 mask_data = load_gdal(mask_lyr)
-                data[mask_data < mask_thres] = np.nan
+                if reflyr_name == 'recommended_mask':
+                     data[mask_data < mask_thres] = 0
+                else:
+                     data[mask_data < mask_thres] = np.nan                
 
             # also apply water mask
             data = data * water_mask
@@ -551,6 +557,7 @@ def save_stack(
         f["timeseries"][0] = 0.0
 
     print("finished writing to HDF5 file: {}".format(fname))
+
 
 def prepare_timeseries(
     outfile,
@@ -718,19 +725,18 @@ def prepare_timeseries(
         print("finished writing to HDF5 file: {}".format(lyr_fname))
     
     # Handle additional layers (correction layers, mask layers, etc.)
-    mask_layers = []
+    mask_layers = ['recommended_mask']
     if mask_lyrs is True:
         mask_layers.extend(['connected_component_labels',
             'temporal_coherence', sp_coh_lyr_name])
 
-    if track_version >= Version('0.8'):
-        mask_layers.extend(['recommended_mask'])
-        if mask_lyrs is True:
+    if track_version >= Version('0.8') and mask_lyrs is True:
             mask_layers.extend(['water_mask'])
 
+    # need to manually build recommended mask in <=0.7 products
     # if v0.8, manually build up recommended mask because it is blank
     # within the product
-    if track_version == Version('0.8'):
+    if track_version <= Version('0.8'):
         mask_dict['connected_component_labels'] = 1
         mask_dict['temporal_coherence'] = 0.6
         mask_dict[sp_coh_lyr_name] = 0.5
@@ -757,8 +763,15 @@ def prepare_timeseries(
                     tsstack_ts = ds_ts['timeseries'] * ds_msk['timeseries']
 
             # Save the modified variable back to the HDF5 file
+            chunk_size = 50
             with h5py.File(outfile, mode="r+") as h5file:
-                h5file['timeseries'][:] = tsstack_ts.values
+                # Iterate over the array in chunks along the first dimension
+                for start_c in range(0, num_date, chunk_size):
+                    end_c = min(start_c + chunk_size, num_date)
+                    # Compute only the current chunk
+                    chunk_ts = tsstack_ts.isel(
+                        phony_dim_1=slice(start_c, end_c)).values
+                    h5file['timeseries'][start_c:end_c, :, :] = chunk_ts
 
     return all_outputs, ref_meta
 
@@ -1039,7 +1052,34 @@ def main(iargs=None):
             if sec_date <= endDate:
                 filtered_files.append(i)
         product_files = filtered_files
-    
+
+    # filter out duplicate products
+    str_list = [Path(f).stem for f in product_files]
+    basenames_noext = [str(f).replace(full_suffix(f), "") for f in str_list]
+    filtered_dict = {}
+    filtered_files = []
+    for i in product_files:
+        prod_basename = str(Path(i).stem)
+        num_parts = prod_basename.split('_')
+        # get date pairs
+        prod_pair = f'{num_parts[6][:8]}_{num_parts[7][:8]}'
+        # get production time
+        production_time = dt.strptime(prod_basename.split('_')[-1],
+            "%Y%m%dT%H%M%SZ")
+        # update with most recent duplicate product
+        if prod_pair in filtered_dict.keys():
+            if production_time > filtered_dict[prod_pair]:
+                filtered_dict[prod_pair] = production_time
+                print(
+                    "Rejecting older duplicate product "
+                    f"{str(Path(filtered_files[-1]).stem)} for newer "
+                    f"product {prod_basename}"
+                )
+                filtered_files[-1] = i
+        else:
+            filtered_dict[prod_pair] = production_time
+            filtered_files.append(i)
+    product_files = filtered_files
     date12_list = _get_date_pairs(product_files)
     print(f"Found {len(product_files)} unwrapped files")
 
@@ -1217,8 +1257,10 @@ def main(iargs=None):
     ds = None
 
     # get list of times WRT to the reference time
+    # and also pass the TS data
     with h5py.File(og_ts_file, 'r') as f:
         ts_date_list = f['date'][:]
+        ts_data = f['timeseries'][:]
 
     x_arr = [
         dt.strptime(
@@ -1231,9 +1273,7 @@ def main(iargs=None):
     # initiate dolphin file object
     writer = BackgroundRasterWriter(dolphin_vel_file,
         like_filename=dolphin_ref_tif)
-    s = HDF5StackReader.from_file_list(
-            [og_ts_file], dset_names=dset_names, keep_open=keep_open
-        )
+
 
     # run dolphin velocity fitting algorithm in blocks
     def read_and_fit(
@@ -1263,7 +1303,7 @@ def main(iargs=None):
             cols,
         )
 
-    readers = [s[0,:,:]]
+    readers = [ts_data]
     process_blocks(
         readers=readers,
         writer=writer,

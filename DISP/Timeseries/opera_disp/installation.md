@@ -10,22 +10,23 @@ Prepared by: Bryan Raimbault,
              Jin Woo Kim
 
 
-### 1. Install conda
+### 1. Install Miniforge - Conda/Mamba
 
 ```bash
-mkdir -p /path/to/your/folder/; cd /path/to/your/folder/
+mkdir -p /path/to/folder/tools; cd /path/to/folder/tools
 
-# download, install and setup (mini/ana)conda
-# for Linux, use Miniconda3-latest-Linux-x86_64.sh
-wget https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh
-bash Miniconda3-latest-Linux-x86_64.sh -b -p /path/to/your/folder/miniconda3
-# for macOS: 
-curl https://repo.anaconda.com/miniconda/Miniconda3-latest-MacOSX-x86_64.sh -o Miniconda3-latest-MacOSX-x86_64.sh
-bash Miniconda3-latest-MacOSX-x86_64.sh -b -p /path/to/your/folder/miniconda3
-# Initialize conda on shell: 
-/path/to/your/folder/miniconda3/bin/conda init bash
+# download, install and setup (mini)conda/mamba
+# for Linux:
+wget https://github.com/conda-forge/miniforge/releases/latest/download/Miniforge3-Linux-x86_64.sh
+# for macOS with Apple Silicon: 
+curl https://github.com/conda-forge/miniforge/releases/latest/download/Miniforge3-MacOSX-arm64.sh -o Miniforge3-MacOSX-arm64.sh
+# for macOS with Intel: 
+curl https://github.com/conda-forge/miniforge/releases/latest/download/Miniforge3-MacOSX-x86_64.sh -o Miniforge3-MacOSX-x86_64.sh
+# Install Miniforge (adjust filename and installation path as needed)
+bash Miniforge3-{Version}.sh -b -p /path/to/folder/tools/miniconda3
+# Initialize conda for your shell: 
+/path/to/folder/tools/miniconda3/bin/conda init bash
 ```
-
 Close and restart the shell for changes to take effect.
 
 ```bash
@@ -35,17 +36,19 @@ conda install git mamba --yes
 
 ### 2. Install OPERA DISP-S1 tools to `opera_disp` environment
 
-#### Download source code
+#### Download source code 
 
 ```bash
-cd /path/to/your/folder/
-git clone TBD ## Should we put the codes on a git or just share a compressed archive?
+cd /path/to/folder/tools
+git clone --depth 1 --no-checkout --branch main --no-checkout https://github.com/OPERA-Cal-Val/OPERA_Applications.git && cd OPERA_Applications
+git sparse-checkout set DISP/Timeseries && git checkout && cd DISP/Timeseries
+#This enables you to only clone the folder of interest opera_disp within the entire repository
 ```
 
 #### Create `opera_disp` environment and install pre-requisites
 
 ```bash
-cd opera_disp
+cd /path/to/folder/tools/OPERA_Applications/DISP/Timeseries/opera_disp
 # create new environment
 # install dependencies with mamba by using `environment.yml`
 mamba env create -f environment.yml
@@ -59,21 +62,21 @@ Create a file (_e.g._: config.rc) for easy activation and loading of the paths t
 
 ```bash
 # creation of a empty file
-touch /path/to/your/folder/opera_disp/config.rc
+touch /path/to/folder/tools/OPERA_Applications/DISP/Timeseries/opera_disp/config.rc
 ```
 Add the following paths within the config.rc file:
 ```bash
-##-------------- OPERA DISP ---------------------------------##
+##----------------------- OPERA DISP -----------------------##
 # add repo tools to your path
-if [ -z ${PYTHONPATH+x} ]; then export PYTHONPATH=""; fi
-export PATH="${PATH}:/path/to/your/folder/opera_disp"
-export DISP_HOME=/path/to/your/folder/opera_disp
+export TOOL_DIR=/path/to/folder/tools
+export PATH=${PATH}:${TOOL_DIR}/OPERA_Applications/DISP/Timeseries/opera_disp
+export DISP_HOME=${TOOL_DIR}/OPERA_Applications/DISP/Timeseries/opera_disp
 export PYTHONPATH=${PYTHONPATH}:${DISP_HOME}
 ```
-Create an alias `load_disp` in `~/.bash_profile` file for easy activation, that call a config.rc file _e.g._:
+Create an alias `load_disp` in `~/.bash_profile` file for easy activation, that call the config.rc file _e.g._:
 ```bash
-alias load_disp='conda activate opera_disp; source /path/to/your/folder/opera_disp/config.rc'
-#Close and restart the terminal or source your .bash_profile for changes to take effect
+alias load_disp='conda activate opera_disp; source /path/to/folder/tools/OPERA_Applications/DISP/Timeseries/opera_disp/config.rc'
+#Close and restart the terminal for changes to take effect
 ```
 
 ### 3. Update the `opera_disp` environment MintPy packages
@@ -83,19 +86,9 @@ alias load_disp='conda activate opera_disp; source /path/to/your/folder/opera_di
 ```bash
 # Load your environnement and paths
 load_disp
-cd /path/to/your/folder/
+cd /path/to/folder/tools/OPERA_Applications/DISP/Timeseries/opera_disp
 git clone https://github.com/insarlab/MintPy.git
 python -m pip install -e MintPy
-```
-
-#### Test the installation
-
-Run the following to test the installation:
-
-```bash
-load_disp
-run1_download_DISP_S1_Static.py --h
-smallbaselineApp.py -h
 ```
 
 ### 4. Prepare credentials or register for NASA Earthdata access
@@ -107,6 +100,27 @@ machine urs.earthdata.nasa.gov
   login MYUSERNAME
   password MYPASSWORD
 ```
+
+## Troubleshooting Advice
+
+If you encounter errors during usage, the most effective solution is to **"quit, re-open the terminal, and relaunch the Conda environment"**. This approach has successfully resolved the issue in all cases we've tested.
+
+## Test the installation
+
+Run the following to test the installation:
+
+```bash
+# Load OPERA displacement module
+load_disp 
+
+# Display help for the download script (try using 'python' if issues occur)
+run1_download_DISP_S1_Static.py --h 
+
+# Display help for MintPy
+smallbaselineApp.py -h
+```
+
+
 
 ### 5. Available frames on OPERA AWS S3 bucket (OPERA DISP-S1 datasets are from 20160101 to 20241231):
 ```bash
@@ -129,44 +143,47 @@ machine urs.earthdata.nasa.gov
 ### 6. Run the OPERA data downloading script:
 For example, here is a sample run for the Central Valley, California case study for descending Sentinel-1 track 042. The lastest preliminary version is v0.9. 
 
-For the Frame 11116, the size of the entire dataset is ~102Gb, ~340Mb for a file. By default, the script processes all available dates, which may require substantial storage and processing time. To reduce the dataset size, you can select a specific date range using the --startDate and --endDate arguments.
+For the Frame 11116, the size of the entire dataset of 300 interferograms is ~102Gb, ~340Mb for a file. By default, the script processes all available dates, which may require substantial storage and processing time. To reduce the dataset size, you can select a specific date range using the --startDate and --endDate arguments.
 ```bash
-#Args:
-# --frameID --> Frame number
-# --version -->
-# --staticDir -->
-# --geomDir -->
-# --dispDir -->
-# --startDate 20190101 -->
-# --endDate 20200101 -->
+# Args:
+# --frameID    OPERA frame number
+# --version    OPERA dataset version
+# --staticDir  Folder for static layers/metadata
+# --geomDir    Folder for geometry files
+# --dispDir    Folder for data
+# --startDate  Start date (optional)
+# --endDate    End date (optional)
 
 run1_download_DISP_S1_Static.py \
       --frameID 11116 \
       --version 0.9 \
-      --staticDir /path/to/your/data/directory/static_lyrs \
-      --geomDir /path/to/your/data/directory/geometry \
-      --dispDir /path/to/your/data/directory/data
+      --staticDir /path/to/work/folder/static_lyrs \
+      --geomDir /path/to/work/folder/geometry \
+      --dispDir /path/to/work/folder/data #\
+     #--startDate 20170101
+     #--endDate 20190101
 ```
-### 7. Run the Mintpy output script
+### 7. Run the MintPy output script
 
 For example, here is a sample run for the Central Valley, California case study for descending Sentinel-1 track 042.
 
 ```bash
 ## Example Command to Run `run2_prep_mintpy_opera.py`
 # Args:
-# -m -->
-# -u -->
-# -o -->
-# --water-mask-file -->
-# --dem-file -->
-# --ref-lalo -->
-# --apply-mask -->
+# -m   Folder for static layers/metadata
+# -u   Folder with data (*.nc for all files)
+# -g   Folder for geometry files
+# -o   Folder for timeseries output
+# --water-mask-file  Water mask file (auto-generated)
+# --dem-file         DEM file (auto-generated)
+# --ref-lalo         Spatial reference for timeseries
+# --apply-mask       Apply mask (optional)
 
 run2_prep_mintpy_opera.py \
-        -m "/path/to/your/data/directory/static_lyrs" \
-        -u "/path/to/your/data/directory/data/*.nc" \
-        --geom-dir /path/to/your/data/directory/geometry \
-        -o /path/to/your/data/directory/mintpy_output \
+        -m "/path/to/work/folder/static_lyrs" \
+        -u "/path/to/work/folder/data/*.nc" \
+        -g "/path/to/work/folder/geometry" \
+        -o /path/to/work/folder/mintpy_output \
         --water-mask-file esa_world_cover_2021 \
         --dem-file glo_30 \
         --ref-lalo '36.612 -121.064' \
@@ -180,11 +197,9 @@ Note:
 In a terminal, you can visualize the timeseries.h5 newly created with the MintPy tools.
 ```bash
 ## Need help with the arguments: tsview.py -h
-tsview.py \
-    /path/to/your/timeseries.h5 \
-    -m /path/to/your/recommended_mask90threshold.h5 \
+tsview.py /path/to/work/folder/mintpy_output/timeseries.h5 \
+        -m /path/to/work/folder/mintpy_output/recommended_mask90threshold.h5 \
 ```
 
 Note: 
 `recommended_mask90threshold.h5` is based on the time-series of `recommended_mask` layers (i.e. `recommended_mask.h5`). We picked the top 90% representing the "most reliable pixels in time" after normalizing the `recommended_mask` against the total number of epoch/dataset. 
-
