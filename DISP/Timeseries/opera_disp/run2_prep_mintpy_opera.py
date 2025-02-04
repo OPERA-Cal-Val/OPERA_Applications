@@ -71,21 +71,17 @@ OPERA_DATASET_ROOT = './'
 ####################################################################################
 EXAMPLE = """example:
 
-  prep_mintpy.py
-      -m pst_output/static_CSLCs/
-      -c "pst_output/dolphin_output/stitched_interferograms/*.zeroed.cor.tif"
-      -u "pst_output/dolphin_output/stitched_interferograms/*.unw.zeroed.tif"
-      --geom-dir pst_output/dolphin_output/stitched_interferograms/geometry
-      --ref-lalo '19.2485991551617 -155.32285148610057'
-      -o mintpy_output
-
+    run2_prep_mintpy_opera.py 
+        -m static_lyrs 
+        -u "products/*.nc" 
+        --geom-dir geometry 
+        -o mintpy_output 
+        --water-mask-file esa_world_cover_2021 
+        --dem-file glo_30 
+        --ref-lalo "29.692 -95.635" 
+        --apply-mask 
+    
 """  # noqa: E501
-
-# """
-# Scott TODO:
-# - UTM_ZONE, EPSG from the stitched IFG (it won't work to get a single GSLC burst)
-# - pixel size is wrong since we're taking range/azimuth size, instead of geocoded size
-# - HEIGHT: do we wanna try to get that from the saved orbit info?
 
 
 def _create_parser():

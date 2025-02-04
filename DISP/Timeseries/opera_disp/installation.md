@@ -4,10 +4,11 @@ Instructions derived and modified from https://github.com/nisar-solid/ATBD/blob/
 https://github.com/OPERA-Cal-Val/calval-DISP/blob/main/docs/installation.md/
 
 Prepared by: Bryan Raimbault,
-             Simran Sangha,
-             Jin Woo Kim,
              Alexander Handwerger,
              Grace Bato
+             Simran Sangha,
+             Jin Woo Kim
+
 
 ### 1. Install conda
 
@@ -186,52 +187,4 @@ tsview.py \
 
 Note: 
 `recommended_mask90threshold.h5` is based on the time-series of `recommended_mask` layers (i.e. `recommended_mask.h5`). We picked the top 90% representing the "most reliable pixels in time" after normalizing the `recommended_mask` against the total number of epoch/dataset. 
-
-### 9. Quick view of a .nc file
-In the following, you can open a interactive python window within the environment to see some 
-```bash
-# Open the NetCDF file
-file_path = "/path/to/your/.nc"  # Replace with your file path
-
-# Open the NetCDF file
-data = rxr.open_rasterio(file_path, masked=True)
-
-# Inspect the dataset
-data
-![image](files:/Users/Desktop/Image.png)
-```
-```bash
-data.connected_component_labels.plot(cmap='gray', vmin=0)
-```
-```bash
-data.displacement.where(data.water_mask > 0).plot(cmap='RdBu', vmin=-.1, vmax=.1)
-```
-```bash
-# List all data variables
-variables = list(data.data_vars.keys())
-print(f"Variables in dataset: {variables}")
-
-# Determine grid layout
-num_vars = len(variables)
-grid_cols = int(num_vars ** 0.5)
-grid_rows = (num_vars // grid_cols) + (num_vars % grid_cols > 0)
-
-# Create a figure with subplots
-fig, axes = plt.subplots(grid_rows, grid_cols, figsize=(15, 10))
-axes = axes.flatten()
-
-# Loop through variables and plot
-for i, var_name in enumerate(variables):
-    data_ = data[var_name]
-    data_.plot(ax=axes[i], cmap="viridis", add_colorbar=True)
-    axes[i].set_title(var_name)
-
-# Hide unused subplots
-for j in range(num_vars, len(axes)):
-    axes[j].set_visible(False)
-
-# Adjust layout and show
-plt.tight_layout()
-plt.show()
-```
 

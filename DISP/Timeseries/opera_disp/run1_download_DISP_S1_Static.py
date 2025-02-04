@@ -49,7 +49,7 @@ def createParser(iargs = None):
 
 def download_file(bucket_name, file_key, local_path):
     ''' download files from S3 bucket '''
-    s3 = boto3.client('s3', config=botocore.client.Config(signature_version=botocore.UNSIGNED))
+    s3 = boto3.client('s3', config=botocore.client.Config(signature_version=botocore.UNSIGNED, connect_timeout=600, read_timeout=600, retries={'max_attempts': 10, 'mode': 'standard'}))
     if not os.path.exists(local_path):
         s3.download_file(bucket_name, file_key, local_path)
         print(f"File downloaded to {local_path}")
