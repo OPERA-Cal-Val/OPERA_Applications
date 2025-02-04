@@ -1,0 +1,9 @@
+if [ -z ${PYTHONPATH+x} ]; then export PYTHONPATH=""; fi
+
+##-------------- OPERA DISP ---------------------------------##
+# add repo tools to your path
+export TOOL_DIR=/path/to/folder/tools
+export PATH=${PATH}:${TOOL_DIR}/OPERA_Applications/DISP/Timeseries/opera_disp
+export DISP_HOME=${TOOL_DIR}/OPERA_Applications/DISP/Timeseries/opera_disp
+export PYTHONPATH=${PYTHONPATH}:${DISP_HOME}
+

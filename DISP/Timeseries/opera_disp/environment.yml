@@ -1,0 +1,41 @@
+# create environment : conda env create -f environment.yml
+name: opera_disp
+channels:
+  - conda-forge
+dependencies:
+  - python=3.12.8
+  - asf_search
+  - argcomplete
+  - awscli
+  - boto3
+  - cartopy
+  - contextily
+  - dem_stitcher>=2.5.8
+  - gdal>=3.4.1
+  - libgdal-netcdf
+  - geopandas
+  - git-lfs
+  - hdf5
+  - h5netcdf
+  - h5py
+  - jax
+  - joblib
+  - jupyter_contrib_nbextensions
+  - jupyterlab
+  - numpy
+  - netcdf4
+  - libnetcdf
+  - opera-utils
+  - pyresample
+  - pandas
+  - pip
+  - pyproj
+  - rasterio
+  - requests
+  - rioxarray
+  - shapely
+  - tile_mate>=0.0.12
+  - tqdm
+  - utm
+  - wget
+  - xarray
