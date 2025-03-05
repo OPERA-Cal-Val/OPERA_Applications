@@ -60,8 +60,9 @@ from pst_dolphin_utils import (
     load_gdal,
     process_blocks,
     warp_to_match,
+    calculate_cumulative_displacement,
 )
-from pst_ts_utils import calculate_cumulative_displacement
+
 from tile_mate.stitcher import DATASET_SHORTNAMES
 
 OPERA_DATASET_ROOT = './'
@@ -70,21 +71,17 @@ OPERA_DATASET_ROOT = './'
 ####################################################################################
 EXAMPLE = """example:
 
-  prep_mintpy.py
-      -m pst_output/static_CSLCs/
-      -c "pst_output/dolphin_output/stitched_interferograms/*.zeroed.cor.tif"
-      -u "pst_output/dolphin_output/stitched_interferograms/*.unw.zeroed.tif"
-      --geom-dir pst_output/dolphin_output/stitched_interferograms/geometry
-      --ref-lalo '19.2485991551617 -155.32285148610057'
-      -o mintpy_output
-
+    run2_prep_mintpy_opera.py 
+        -m static_lyrs 
+        -u "products/*.nc" 
+        --geom-dir geometry 
+        -o mintpy_output 
+        --water-mask-file esa_world_cover_2021 
+        --dem-file glo_30 
+        --ref-lalo "29.692 -95.635" 
+        --apply-mask 
+    
 """  # noqa: E501
-
-# """
-# Scott TODO:
-# - UTM_ZONE, EPSG from the stitched IFG (it won't work to get a single GSLC burst)
-# - pixel size is wrong since we're taking range/azimuth size, instead of geocoded size
-# - HEIGHT: do we wanna try to get that from the saved orbit info?
 
 
 def _create_parser():
@@ -515,6 +512,7 @@ def save_stack(
     with h5py.File(fname, "a") as f:
         prog_bar = ptime.progressBar(maxValue=num_file)
         for i,file_inc in enumerate(file_list):
+            # read data using gdal
             # if <v0.8, recommended_mask layer does not exist
             # if v0.8 there is an empty mask bug
             # for both cases pass array of 1s
@@ -539,7 +537,7 @@ def save_stack(
                 if reflyr_name == 'recommended_mask':
                     data[mask_data < mask_thres] = 0
                 else:
-                    data[mask_data < mask_thres] = np.nan
+                    data[mask_data < mask_thres] = np.nan                
 
             # also apply water mask
             data = data * water_mask
