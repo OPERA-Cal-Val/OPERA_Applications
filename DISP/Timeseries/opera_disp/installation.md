@@ -91,6 +91,14 @@ git clone https://github.com/insarlab/MintPy.git
 python -m pip install -e MintPy
 ```
 
+#### Install disp-xr tool from source
+```bash
+# Load your environnement and paths
+load_disp
+cd /path/to/folder/tools/OPERA_Applications/DISP/Timeseries/opera_disp
+git clone https://github.com/opera-adt/disp-xr.git
+pip install -e disp-xr
+```
 ### 4. Prepare credentials or register for NASA Earthdata access
 
 1. Register for an account with NASA Earthdata at https://urs.earthdata.nasa.gov/users/new
@@ -120,34 +128,20 @@ run1_download_DISP_S1_Static.py --h
 smallbaselineApp.py -h
 ```
 
+### 5. Available OPERA DISP-S1 datasets are from 20160101 to 20241231:
 
+You can look at your area of interest (AOI), using the OPERA_DISP_S1_Frames_viewer.ipynb or open the Frame_viewer.html in your local browser to find a OPERA DISP-S1 Frame of interest and extract the corresponding Frame ID.
+You can also select one frame and toggling Ascending or Descending geometries:
+[![nbviewer](https://raw.githubusercontent.com/jupyter/design/master/logos/Badges/nbviewer_badge.svg)](https://nbviewer.org/github/OPERA-Cal-Val/OPERA_Applications/blob/notebook_disp/DISP/Timeseries/opera_disp/OPERA_DISP_S1_Frames_viewer.ipynb?flush_cache=true)
 
-### 5. Available frames on OPERA AWS S3 bucket (OPERA DISP-S1 datasets are from 20160101 to 20241231):
-```bash
-#FrameID,   location,       reference_lalo,     
-08882,     Houston,        29.692 -095.635,  
-11115,     Central CA,     37.104 -121.651,  
-11116,     Central CA,     36.612 -121.064,  
-12640,     Florida,        29.056 -081.263,  
-18903,     Rosamond,       35.039 -118.006,  
-28486,     Oklahoma,       35.483 -098.971,  
-33039,     Hawaii,         19.450 -155.525, 
-33065,     Unimak Isl.,    54.831 -163.781, 
-36542,     Central CA,     36.516 -120.853,
-42779,     Alaska,         61.550 -149.327, 
-25018,     Alaska,         65.117 -147.433,
-08622,     New York,       40.703 -073.979,
-09156,     South SF,       36.293 -121.403,
-```
 
 ### 6. Run the OPERA data downloading script:
-For example, here is a sample run for the Central Valley, California case study for descending Sentinel-1 track 042. The lastest preliminary version is v0.9. 
+For example, here is a sample run for the Central Valley, California case study for descending Sentinel-1 track 042. 
 
-For the Frame 11116, the size of the entire dataset of 300 interferograms is ~102Gb, ~340Mb for a file. By default, the script processes all available dates, which may require substantial storage and processing time. To reduce the dataset size, you can select a specific date range using the --startDate and --endDate arguments.
+For the Frame 11116, the size of the entire dataset of 300 files is ~102Gb, ~340Mb for a file. By default, the script processes all available dates, which may require substantial storage and processing time. To reduce the dataset size, you can select a bounding box. This will crop all the OPERA DISP-S1 files you are downloading according to your box and write the corresponding subsetted files for the bounding box with a reduced size.
 ```bash
 # Args:
 # --frameID    OPERA frame number
-# --version    OPERA dataset version
 # --staticDir  Folder for static layers/metadata
 # --geomDir    Folder for geometry files
 # --dispDir    Folder for data
@@ -156,16 +150,17 @@ For the Frame 11116, the size of the entire dataset of 300 interferograms is ~10
 
 run1_download_DISP_S1_Static.py \
       --frameID 11116 \
-      --version 0.9 \
       --staticDir /path/to/work/folder/static_lyrs \
       --geomDir /path/to/work/folder/geometry \
       --dispDir /path/to/work/folder/data #\
+      --bbox lon_min lon_max lat_min lat_max
      #--startDate 20170101
      #--endDate 20190101
 ```
 ### 7. Run the MintPy output script
 
 For example, here is a sample run for the Central Valley, California case study for descending Sentinel-1 track 042.
+You need to choose a spatial reference point for your dataset, as InSAR measurements are relative in both space and time. This point will be considered a fixed position in your dataset, and all other points will be measured relative to it. Be careful when choosing this reference point. For example, if you select a location that is actively moving (e.g., subsiding or uplifting), this motion will be reflected across the entire dataset and may potentially distort your interpretation.
 
 ```bash
 ## Example Command to Run `run2_prep_mintpy_opera.py`
