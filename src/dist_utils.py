@@ -108,10 +108,11 @@ def compute_areas(stats, pixel_area, product='alert', date=None):
         description = ['No disturbance', 'Provisional < 50%', 'Confirmed < 50%', 'Provisional  ≥ 50%', 'Confirmed  ≥ 50%']
     elif product == 'ann':
         description = ['No Disturbance', 'Confirmed < 50%, Ongoing',
-                       'Confirmed ≥ 50%, Ongoing', 'Confirmed < 50%, complete', 'Confirmed ≥ 50%, Complete']
+                       'Confirmed ≥ 50%, Ongoing', 'Confirmed < 50%, complete', 'Confirmed ≥ 50%, Complete', 'Confirmed, prev yr <50%',
+                       'Confirmed, prev yr ≥50%']
     elif product not in ['alert', 'ann']:
         raise Exception("Invalid value for 'product'. It should be 'alert' or 'ann'.")
-    
+
     areas_km = []
     areas_hectares = []
     
@@ -312,10 +313,6 @@ def make_hls_true_color(filepath, bandlist, filename):
 
     print('making hls true color rendering...')
 
-    # make output subdirectory, if not already present
-    out_dir = 'tifs/'
-    os.makedirs(os.path.dirname(out_dir), exist_ok=True)
-
     for i,b in enumerate(bandlist):
         band = filepath+b+'.tif'
 
@@ -346,10 +343,10 @@ def make_hls_true_color(filepath, bandlist, filename):
     greenClipped_scaled = scaleto255(greenClipped)
     blueClipped_scaled = scaleto255(blueClipped)
     
-    cube = np.stack((redClipped_scaled, blueClipped_scaled, greenClipped_scaled)).astype('uint8')
+    cube = np.stack((redClipped_scaled, greenClipped_scaled, blueClipped_scaled)).astype('uint8')
 
     RGB_dataset = rio.open(
-        str(out_dir+filename),
+        str(filename),
         'w',
         driver='GTiff',
         height=cube.shape[1],
@@ -377,10 +374,6 @@ def make_hls_false_color(filepath, bandlist, filename):
                 No returns. Saves .tif file locally.
     '''
     print('making false color rendering...')
-
-    # make output subdirectory, if not already present
-    out_dir = 'tifs/'
-    os.makedirs(os.path.dirname(out_dir), exist_ok=True)
 
     for i,b in enumerate(bandlist):
         band = filepath+b+'.tif'
@@ -415,7 +408,7 @@ def make_hls_false_color(filepath, bandlist, filename):
     cube = np.stack((nirClipped_scaled, blueClipped_scaled, greenClipped_scaled)).astype('uint8')
 
     NBG_dataset = rio.open(
-        str(out_dir+filename),
+        str(filename),
         'w',
         driver='GTiff',
         height=cube.shape[1],
@@ -444,10 +437,6 @@ def make_hls_ndvi(filepath, bandlist, filename):
     '''
     
     print('making ndvi rendering...')
-
-    # make output subdirectory, if not already present
-    out_dir = 'tifs/'
-    os.makedirs(os.path.dirname(out_dir), exist_ok=True)
 
     for i,b in enumerate(bandlist):
             
@@ -486,7 +475,7 @@ def make_hls_ndvi(filepath, bandlist, filename):
         cube = np.reshape(ndviClipped_scaled, (1, ndviClipped_scaled.shape[0], ndviClipped_scaled.shape[1])).astype('uint8')
         
         NDVI_dataset = rio.open(
-            str(out_dir+filename),
+            str(filename),
             'w',
             driver='GTiff',
             height=cube.shape[1],
@@ -576,44 +565,30 @@ def scaleto255(x):
     x_scaled = ((x - np.nanmin(x))) * (255/(np.nanmax(x)-np.nanmin(x)))
     return(x_scaled)
 
-def stack_bands(bandpath:str, bandlist:list): 
+def stack_layers(layerlist:list): 
     '''
     Returns geocube with three bands stacked into one multi-dimensional array.
             Parameters:
-                    bandpath (str): Path to bands that should be stacked
-                    bandlist (list): Three bands that should be stacked
+                    layerlist (list): List of OPERA layers opened via Earthaccess.open())
             Returns:
-                    bandStack (xarray Dataset): Geocube with stacked bands
-                    crs (int): Coordinate Reference System corresponding to bands
-
+                    layerStack (xarray Dataset): Geocube with stacked layers
+                    crs (int): Coordinate Reference System corresponding to layers
 
             Updates: Changed load data library from xarray to rioxarray due to deprecation of xarray.open_rasterio().
             This required excluding the .scales method as well, which may cause problems, but I will wait and see.
     '''
-    bandStack = []; bandS = []; bandStack_ = [];
-    for i,band in enumerate(bandlist):
+    layerStack = []
+    for i, layer in enumerate(layerlist):
+        da = rioxarray.open_rasterio(layer).squeeze(drop=True)
         if i==0:
-            #bandStack_ = xr.open_rasterio(bandpath%band)
-            bandStack_ = rioxarray.open_rasterio(bandpath%band)
-            #crs = pyproj.CRS.to_epsg(pyproj.CRS.from_proj4(bandStack_.crs))
-            crs = bandStack_.rio.crs.to_epsg()
-            #bandStack_ = bandStack_ * bandStack_.scales[0]
-            bandStack = bandStack_.squeeze(drop=True)
-            bandStack = bandStack.to_dataset(name='z')
-            bandStack.coords['band'] = i+1
-            bandStack = bandStack.rename({'x':'longitude', 'y':'latitude', 'band':'band'})
-            bandStack = bandStack.expand_dims(dim='band')  
-        else:
-            #bandS = xr.open_rasterio(bandpath%band)
-            bandS = rioxarray.open_rasterio(bandpath%band)
-            #bandS = bandS * bandS.scales[0]
-            bandS = bandS.squeeze(drop=True)
-            bandS = bandS.to_dataset(name='z')
-            bandS.coords['band'] = i+1
-            bandS = bandS.rename({'x':'longitude', 'y':'latitude', 'band':'band'})
-            bandS = bandS.expand_dims(dim='band')
-            bandStack = xr.concat([bandStack, bandS], dim='band')
-    return bandStack, crs
+            crs = da.rio.crs.to_epsg()
+        ds = da.to_dataset(name='z')
+        ds.coords['layer'] = i + 1
+        ds = ds.rename({'x': 'longitude', 'y': 'latitude', 'layer': 'layer'})
+        ds = ds.expand_dims(dim='layer')
+        layerStack.append(ds)
+    layerStack = xr.concat(layerStack, dim='layer')
+    return layerStack, crs
 
 def standard_date(day, ref_date):
     '''
@@ -725,7 +700,7 @@ def merge_and_stack_geotiffs(input_files, bandlist, output_file):
     # Stack the merged bands into a single multi-band array
     stacked_data = np.stack(list(merged_data.values()), axis=0)
 
-    # # # Update metadata to have the correct number of bands
+    # Update metadata to have the correct number of bands
     meta = None
     with rio.open(all_filepaths[0][0]) as src:
         meta = src.meta.copy()
