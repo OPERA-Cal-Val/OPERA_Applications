@@ -436,63 +436,60 @@ def make_hls_ndvi(filepath, bandlist, filename):
                 No returns. Saves .tif file locally.
     '''
     
-    print('making ndvi rendering...')
+    import matplotlib.pyplot as plt
+    import matplotlib.cm as cm
+    from matplotlib.colors import Normalize
 
-    for i,b in enumerate(bandlist):
-            
-            band = filepath+b+'.tif'
-            
-            #get transform/crs
-            if i == 0:
-                with rio.open(band, mode='r') as src:
-                    transform = src.transform
-                    crs = src.crs  
-            #load bands  
-            if b == "B05" or b == "B08":
-                data = gdal.Open(band)
-                nir = data.GetRasterBand(1).ReadAsArray()
-            elif b == "B04":
-                data = gdal.Open(band)
-                red = data.GetRasterBand(1).ReadAsArray()
-            elif b == "B03":
-                data = gdal.Open(band)
-                green = data.GetRasterBand(1).ReadAsArray() 
-            elif b == "B02":
-                data = gdal.Open(band)
-                blue = data.GetRasterBand(1).ReadAsArray()
-    
-    if (nir is not None) & (red is not None):
+    nir, red = None, None
 
-        #compute NDVI
+    for i, b in enumerate(bandlist):
+        band = filepath + b + '.tif'
+
+        if i == 0:
+            with rio.open(band) as src:
+                transform = src.transform
+                crs = src.crs
+
+        data = gdal.Open(band)
+        if b in ("B05", "B08"):
+            nir = data.GetRasterBand(1).ReadAsArray()
+        elif b == "B04":
+            red = data.GetRasterBand(1).ReadAsArray()
+
+    if nir is not None and red is not None:
+        # Compute NDVI
         ndvi = (nir - red) / (nir + red)
-        mask = (ndvi > 0) & (ndvi < 1)
-        ndvi_cor = np.ma.masked_array(ndvi, ~mask)
-        
-        ndviClipped = clipPercentile(ndvi_cor)
-        ndviClipped_scaled = scaleto255(ndviClipped)
+        ndvi = np.clip(ndvi, -1, 1)  # Ensure valid NDVI range
 
-        # Reshape the array
-        cube = np.reshape(ndviClipped_scaled, (1, ndviClipped_scaled.shape[0], ndviClipped_scaled.shape[1])).astype('uint8')
-        
-        NDVI_dataset = rio.open(
-            str(filename),
+        # Scale NDVI from [-1,1] to [0,255]
+        ndvi_scaled = ((ndvi + 1) / 2 * 255).astype(np.uint8)
+
+        # Reshape for writing
+        cube = ndvi_scaled[np.newaxis, :, :]
+
+        # Create color map using RdYlGn
+        cmap = cm.get_cmap('RdYlGn', 256)
+        colormap = {
+            i: tuple((np.array(cmap(i)[:3]) * 255).astype(int)) for i in range(256)
+        }
+
+        with rio.open(
+            filename,
             'w',
             driver='GTiff',
             height=cube.shape[1],
             width=cube.shape[2],
             count=1,
-            dtype=cube.dtype,
+            dtype='uint8',
             crs=crs,
             transform=transform
-        )
+        ) as dst:
+            dst.write(cube)
+            dst.write_colormap(1, colormap)
 
-        NDVI_dataset.write(cube)
-        NDVI_dataset.close() 
-
-        print(filename+' written successfully.')
-        
+        print(f"{filename} written successfully with embedded NDVI color map.")
     else:
-        print('missing necessary bands to compute ndvi.')
+        print("Missing NIR or Red bands.")
     
     return
 
@@ -508,7 +505,7 @@ def mask_rasters(merged_VEG_ANOM_MAX, merged_VEG_DIST_DATE, merged_VEG_DIST_STAT
                     masked_VEG_DIST_DATE (array): merged_VEG_DIST_DATE array with nan values masked
                     masked_VEG_DIST_STATUS (array): merged_VEG_DIST_STATUS array with nan values masked
     '''
-    raster_da_VEG_ANOM_MAX = merged_VEG_ANOM_MAX.where((merged_VEG_ANOM_MAX<=100), np.nan)
+    raster_da_VEG_ANOM_MAX = merged_VEG_ANOM_MAX.where((merged_VEG_ANOM_MAX <= 100) & (merged_VEG_ANOM_MAX != 0), np.nan)
     arr_raster_da_VEG_ANOM_MAX = raster_da_VEG_ANOM_MAX.values
     masked_VEG_ANOM_MAX = ma.masked_invalid(arr_raster_da_VEG_ANOM_MAX)
     
