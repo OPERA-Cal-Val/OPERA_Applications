@@ -108,10 +108,11 @@ def compute_areas(stats, pixel_area, product='alert', date=None):
         description = ['No disturbance', 'Provisional < 50%', 'Confirmed < 50%', 'Provisional  ≥ 50%', 'Confirmed  ≥ 50%']
     elif product == 'ann':
         description = ['No Disturbance', 'Confirmed < 50%, Ongoing',
-                       'Confirmed ≥ 50%, Ongoing', 'Confirmed < 50%, complete', 'Confirmed ≥ 50%, Complete']
+                       'Confirmed ≥ 50%, Ongoing', 'Confirmed < 50%, complete', 'Confirmed ≥ 50%, Complete', 'Confirmed, prev yr <50%',
+                       'Confirmed, prev yr ≥50%']
     elif product not in ['alert', 'ann']:
         raise Exception("Invalid value for 'product'. It should be 'alert' or 'ann'.")
-    
+
     areas_km = []
     areas_hectares = []
     
@@ -312,10 +313,6 @@ def make_hls_true_color(filepath, bandlist, filename):
 
     print('making hls true color rendering...')
 
-    # make output subdirectory, if not already present
-    out_dir = 'tifs/'
-    os.makedirs(os.path.dirname(out_dir), exist_ok=True)
-
     for i,b in enumerate(bandlist):
         band = filepath+b+'.tif'
 
@@ -346,10 +343,10 @@ def make_hls_true_color(filepath, bandlist, filename):
     greenClipped_scaled = scaleto255(greenClipped)
     blueClipped_scaled = scaleto255(blueClipped)
     
-    cube = np.stack((redClipped_scaled, blueClipped_scaled, greenClipped_scaled)).astype('uint8')
+    cube = np.stack((redClipped_scaled, greenClipped_scaled, blueClipped_scaled)).astype('uint8')
 
     RGB_dataset = rio.open(
-        str(out_dir+filename),
+        str(filename),
         'w',
         driver='GTiff',
         height=cube.shape[1],
@@ -377,10 +374,6 @@ def make_hls_false_color(filepath, bandlist, filename):
                 No returns. Saves .tif file locally.
     '''
     print('making false color rendering...')
-
-    # make output subdirectory, if not already present
-    out_dir = 'tifs/'
-    os.makedirs(os.path.dirname(out_dir), exist_ok=True)
 
     for i,b in enumerate(bandlist):
         band = filepath+b+'.tif'
@@ -415,7 +408,7 @@ def make_hls_false_color(filepath, bandlist, filename):
     cube = np.stack((nirClipped_scaled, blueClipped_scaled, greenClipped_scaled)).astype('uint8')
 
     NBG_dataset = rio.open(
-        str(out_dir+filename),
+        str(filename),
         'w',
         driver='GTiff',
         height=cube.shape[1],
@@ -443,67 +436,60 @@ def make_hls_ndvi(filepath, bandlist, filename):
                 No returns. Saves .tif file locally.
     '''
     
-    print('making ndvi rendering...')
+    import matplotlib.pyplot as plt
+    import matplotlib.cm as cm
+    from matplotlib.colors import Normalize
 
-    # make output subdirectory, if not already present
-    out_dir = 'tifs/'
-    os.makedirs(os.path.dirname(out_dir), exist_ok=True)
+    nir, red = None, None
 
-    for i,b in enumerate(bandlist):
-            
-            band = filepath+b+'.tif'
-            
-            #get transform/crs
-            if i == 0:
-                with rio.open(band, mode='r') as src:
-                    transform = src.transform
-                    crs = src.crs  
-            #load bands  
-            if b == "B05" or b == "B08":
-                data = gdal.Open(band)
-                nir = data.GetRasterBand(1).ReadAsArray()
-            elif b == "B04":
-                data = gdal.Open(band)
-                red = data.GetRasterBand(1).ReadAsArray()
-            elif b == "B03":
-                data = gdal.Open(band)
-                green = data.GetRasterBand(1).ReadAsArray() 
-            elif b == "B02":
-                data = gdal.Open(band)
-                blue = data.GetRasterBand(1).ReadAsArray()
-    
-    if (nir is not None) & (red is not None):
+    for i, b in enumerate(bandlist):
+        band = filepath + b + '.tif'
 
-        #compute NDVI
+        if i == 0:
+            with rio.open(band) as src:
+                transform = src.transform
+                crs = src.crs
+
+        data = gdal.Open(band)
+        if b in ("B05", "B08"):
+            nir = data.GetRasterBand(1).ReadAsArray()
+        elif b == "B04":
+            red = data.GetRasterBand(1).ReadAsArray()
+
+    if nir is not None and red is not None:
+        # Compute NDVI
         ndvi = (nir - red) / (nir + red)
-        mask = (ndvi > 0) & (ndvi < 1)
-        ndvi_cor = np.ma.masked_array(ndvi, ~mask)
-        
-        ndviClipped = clipPercentile(ndvi_cor)
-        ndviClipped_scaled = scaleto255(ndviClipped)
+        ndvi = np.clip(ndvi, -1, 1)  # Ensure valid NDVI range
 
-        # Reshape the array
-        cube = np.reshape(ndviClipped_scaled, (1, ndviClipped_scaled.shape[0], ndviClipped_scaled.shape[1])).astype('uint8')
-        
-        NDVI_dataset = rio.open(
-            str(out_dir+filename),
+        # Scale NDVI from [-1,1] to [0,255]
+        ndvi_scaled = ((ndvi + 1) / 2 * 255).astype(np.uint8)
+
+        # Reshape for writing
+        cube = ndvi_scaled[np.newaxis, :, :]
+
+        # Create color map using RdYlGn
+        cmap = cm.get_cmap('RdYlGn', 256)
+        colormap = {
+            i: tuple((np.array(cmap(i)[:3]) * 255).astype(int)) for i in range(256)
+        }
+
+        with rio.open(
+            filename,
             'w',
             driver='GTiff',
             height=cube.shape[1],
             width=cube.shape[2],
             count=1,
-            dtype=cube.dtype,
+            dtype='uint8',
             crs=crs,
             transform=transform
-        )
+        ) as dst:
+            dst.write(cube)
+            dst.write_colormap(1, colormap)
 
-        NDVI_dataset.write(cube)
-        NDVI_dataset.close() 
-
-        print(filename+' written successfully.')
-        
+        print(f"{filename} written successfully with embedded NDVI color map.")
     else:
-        print('missing necessary bands to compute ndvi.')
+        print("Missing NIR or Red bands.")
     
     return
 
@@ -519,7 +505,7 @@ def mask_rasters(merged_VEG_ANOM_MAX, merged_VEG_DIST_DATE, merged_VEG_DIST_STAT
                     masked_VEG_DIST_DATE (array): merged_VEG_DIST_DATE array with nan values masked
                     masked_VEG_DIST_STATUS (array): merged_VEG_DIST_STATUS array with nan values masked
     '''
-    raster_da_VEG_ANOM_MAX = merged_VEG_ANOM_MAX.where((merged_VEG_ANOM_MAX<=100), np.nan)
+    raster_da_VEG_ANOM_MAX = merged_VEG_ANOM_MAX.where((merged_VEG_ANOM_MAX <= 100) & (merged_VEG_ANOM_MAX != 0), np.nan)
     arr_raster_da_VEG_ANOM_MAX = raster_da_VEG_ANOM_MAX.values
     masked_VEG_ANOM_MAX = ma.masked_invalid(arr_raster_da_VEG_ANOM_MAX)
     
@@ -576,44 +562,30 @@ def scaleto255(x):
     x_scaled = ((x - np.nanmin(x))) * (255/(np.nanmax(x)-np.nanmin(x)))
     return(x_scaled)
 
-def stack_bands(bandpath:str, bandlist:list): 
+def stack_layers(layerlist:list): 
     '''
     Returns geocube with three bands stacked into one multi-dimensional array.
             Parameters:
-                    bandpath (str): Path to bands that should be stacked
-                    bandlist (list): Three bands that should be stacked
+                    layerlist (list): List of OPERA layers opened via Earthaccess.open())
             Returns:
-                    bandStack (xarray Dataset): Geocube with stacked bands
-                    crs (int): Coordinate Reference System corresponding to bands
-
+                    layerStack (xarray Dataset): Geocube with stacked layers
+                    crs (int): Coordinate Reference System corresponding to layers
 
             Updates: Changed load data library from xarray to rioxarray due to deprecation of xarray.open_rasterio().
             This required excluding the .scales method as well, which may cause problems, but I will wait and see.
     '''
-    bandStack = []; bandS = []; bandStack_ = [];
-    for i,band in enumerate(bandlist):
+    layerStack = []
+    for i, layer in enumerate(layerlist):
+        da = rioxarray.open_rasterio(layer).squeeze(drop=True)
         if i==0:
-            #bandStack_ = xr.open_rasterio(bandpath%band)
-            bandStack_ = rioxarray.open_rasterio(bandpath%band)
-            #crs = pyproj.CRS.to_epsg(pyproj.CRS.from_proj4(bandStack_.crs))
-            crs = bandStack_.rio.crs.to_epsg()
-            #bandStack_ = bandStack_ * bandStack_.scales[0]
-            bandStack = bandStack_.squeeze(drop=True)
-            bandStack = bandStack.to_dataset(name='z')
-            bandStack.coords['band'] = i+1
-            bandStack = bandStack.rename({'x':'longitude', 'y':'latitude', 'band':'band'})
-            bandStack = bandStack.expand_dims(dim='band')  
-        else:
-            #bandS = xr.open_rasterio(bandpath%band)
-            bandS = rioxarray.open_rasterio(bandpath%band)
-            #bandS = bandS * bandS.scales[0]
-            bandS = bandS.squeeze(drop=True)
-            bandS = bandS.to_dataset(name='z')
-            bandS.coords['band'] = i+1
-            bandS = bandS.rename({'x':'longitude', 'y':'latitude', 'band':'band'})
-            bandS = bandS.expand_dims(dim='band')
-            bandStack = xr.concat([bandStack, bandS], dim='band')
-    return bandStack, crs
+            crs = da.rio.crs.to_epsg()
+        ds = da.to_dataset(name='z')
+        ds.coords['layer'] = i + 1
+        ds = ds.rename({'x': 'longitude', 'y': 'latitude', 'layer': 'layer'})
+        ds = ds.expand_dims(dim='layer')
+        layerStack.append(ds)
+    layerStack = xr.concat(layerStack, dim='layer')
+    return layerStack, crs
 
 def standard_date(day, ref_date):
     '''
@@ -725,7 +697,7 @@ def merge_and_stack_geotiffs(input_files, bandlist, output_file):
     # Stack the merged bands into a single multi-band array
     stacked_data = np.stack(list(merged_data.values()), axis=0)
 
-    # # # Update metadata to have the correct number of bands
+    # Update metadata to have the correct number of bands
     meta = None
     with rio.open(all_filepaths[0][0]) as src:
         meta = src.meta.copy()
