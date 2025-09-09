@@ -129,4 +129,5 @@ dmypy.json
 .pyre/
 
 # Exclude tif files
-*.tif
+*.tif.DS_Store
+.DS_Store
