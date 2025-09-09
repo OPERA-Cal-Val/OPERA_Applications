@@ -44,7 +44,7 @@ conda create -n opera_disp-s1 --yes
 conda activate opera_disp-s1
 
 # Install required packages into the environment
-mamba install -c conda-forge python==3.11.13 jupyter ipyleaflet --yes
+mamba install -c conda-forge python jupyter ipyleaflet --yes
 ```
 
 ### 2. Install OPERA DISP-S1 tools to `opera_disp-s1` environment

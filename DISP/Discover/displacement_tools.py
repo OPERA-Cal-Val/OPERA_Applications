@@ -302,7 +302,7 @@ def display_opera_frames_map(geojson_path="Frames_Information.geojson"):
     gdf = gpd.read_file(geojson_path)
     m = folium.Map(location=[30, -100], zoom_start=4, tiles='Esri.WorldImagery')
 
-    popup_fields = ["frame_id", "orbit_pass", "num_dates"]
+    popup_fields = ["Frame ID", "orbit_pass", "Dates"]
 
     # Ascending
     asc = gdf[gdf.orbit_pass == "ASCENDING"]
@@ -486,16 +486,6 @@ def download_disp_files(nc_urls, bbox, outdir, username, password, num_workers=3
         for future in as_completed(future_to_url):
             _ = future.result()
 
-def extract_static_layers(disp_file, output_dir="static"):
-    """
-    Extract static layers (e.g., water mask, landcover, DEM) from a DISP file.
-
-    Args:
-        disp_file (str or Path): Path to a DISP NetCDF file.
-        output_dir (str): Directory where the static layers will be stored.
-    """
-    static_layers.get_static_layers(disp_file, output_dir=output_dir)
-
 def download_and_plot_dem(disp_file, output_dir="static", show=True):
     """
     Download DEM for the DISP file and optionally display it.
@@ -605,6 +595,8 @@ def build_stack_and_get_epsg(disp_df):
         epsg (int): EPSG code of the spatial reference
     """
     stack_prod = disp_stack.combine_disp_product(disp_df)
+    stack_prod = stack_prod.isel(time=slice(1, None))
+    stack_prod["displacement"] = stack_prod["displacement"] - stack_prod.isel(time=0).displacement
     epsg = pyproj.CRS(stack_prod.spatial_ref.attrs['crs_wkt']).to_epsg()
     return stack_prod, epsg
 
