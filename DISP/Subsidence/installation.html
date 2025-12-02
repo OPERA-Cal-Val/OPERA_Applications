@@ -1,0 +1,513 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>installation.md</title>
+<meta http-equiv="Content-type" content="text/html;charset=UTF-8">
+
+<style>
+/* https://github.com/microsoft/vscode/blob/master/extensions/markdown-language-features/media/markdown.css */
+/*---------------------------------------------------------------------------------------------
+ *  Copyright (c) Microsoft Corporation. All rights reserved.
+ *  Licensed under the MIT License. See License.txt in the project root for license information.
+ *--------------------------------------------------------------------------------------------*/
+
+body {
+	font-family: var(--vscode-markdown-font-family, -apple-system, BlinkMacSystemFont, "Segoe WPC", "Segoe UI", "Ubuntu", "Droid Sans", sans-serif);
+	font-size: var(--vscode-markdown-font-size, 14px);
+	padding: 0 26px;
+	line-height: var(--vscode-markdown-line-height, 22px);
+	word-wrap: break-word;
+}
+
+#code-csp-warning {
+	position: fixed;
+	top: 0;
+	right: 0;
+	color: white;
+	margin: 16px;
+	text-align: center;
+	font-size: 12px;
+	font-family: sans-serif;
+	background-color:#444444;
+	cursor: pointer;
+	padding: 6px;
+	box-shadow: 1px 1px 1px rgba(0,0,0,.25);
+}
+
+#code-csp-warning:hover {
+	text-decoration: none;
+	background-color:#007acc;
+	box-shadow: 2px 2px 2px rgba(0,0,0,.25);
+}
+
+body.scrollBeyondLastLine {
+	margin-bottom: calc(100vh - 22px);
+}
+
+body.showEditorSelection .code-line {
+	position: relative;
+}
+
+body.showEditorSelection .code-active-line:before,
+body.showEditorSelection .code-line:hover:before {
+	content: "";
+	display: block;
+	position: absolute;
+	top: 0;
+	left: -12px;
+	height: 100%;
+}
+
+body.showEditorSelection li.code-active-line:before,
+body.showEditorSelection li.code-line:hover:before {
+	left: -30px;
+}
+
+.vscode-light.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(0, 0, 0, 0.15);
+}
+
+.vscode-light.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(0, 0, 0, 0.40);
+}
+
+.vscode-light.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+.vscode-dark.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(255, 255, 255, 0.4);
+}
+
+.vscode-dark.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(255, 255, 255, 0.60);
+}
+
+.vscode-dark.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+.vscode-high-contrast.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(255, 160, 0, 0.7);
+}
+
+.vscode-high-contrast.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(255, 160, 0, 1);
+}
+
+.vscode-high-contrast.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+img {
+	max-width: 100%;
+	max-height: 100%;
+}
+
+a {
+	text-decoration: none;
+}
+
+a:hover {
+	text-decoration: underline;
+}
+
+a:focus,
+input:focus,
+select:focus,
+textarea:focus {
+	outline: 1px solid -webkit-focus-ring-color;
+	outline-offset: -1px;
+}
+
+hr {
+	border: 0;
+	height: 2px;
+	border-bottom: 2px solid;
+}
+
+h1 {
+	padding-bottom: 0.3em;
+	line-height: 1.2;
+	border-bottom-width: 1px;
+	border-bottom-style: solid;
+}
+
+h1, h2, h3 {
+	font-weight: normal;
+}
+
+table {
+	border-collapse: collapse;
+}
+
+table > thead > tr > th {
+	text-align: left;
+	border-bottom: 1px solid;
+}
+
+table > thead > tr > th,
+table > thead > tr > td,
+table > tbody > tr > th,
+table > tbody > tr > td {
+	padding: 5px 10px;
+}
+
+table > tbody > tr + tr > td {
+	border-top: 1px solid;
+}
+
+blockquote {
+	margin: 0 7px 0 5px;
+	padding: 0 16px 0 10px;
+	border-left-width: 5px;
+	border-left-style: solid;
+}
+
+code {
+	font-family: Menlo, Monaco, Consolas, "Droid Sans Mono", "Courier New", monospace, "Droid Sans Fallback";
+	font-size: 1em;
+	line-height: 1.357em;
+}
+
+body.wordWrap pre {
+	white-space: pre-wrap;
+}
+
+pre:not(.hljs),
+pre.hljs code > div {
+	padding: 16px;
+	border-radius: 3px;
+	overflow: auto;
+}
+
+pre code {
+	color: var(--vscode-editor-foreground);
+	tab-size: 4;
+}
+
+/** Theming */
+
+.vscode-light pre {
+	background-color: rgba(220, 220, 220, 0.4);
+}
+
+.vscode-dark pre {
+	background-color: rgba(10, 10, 10, 0.4);
+}
+
+.vscode-high-contrast pre {
+	background-color: rgb(0, 0, 0);
+}
+
+.vscode-high-contrast h1 {
+	border-color: rgb(0, 0, 0);
+}
+
+.vscode-light table > thead > tr > th {
+	border-color: rgba(0, 0, 0, 0.69);
+}
+
+.vscode-dark table > thead > tr > th {
+	border-color: rgba(255, 255, 255, 0.69);
+}
+
+.vscode-light h1,
+.vscode-light hr,
+.vscode-light table > tbody > tr + tr > td {
+	border-color: rgba(0, 0, 0, 0.18);
+}
+
+.vscode-dark h1,
+.vscode-dark hr,
+.vscode-dark table > tbody > tr + tr > td {
+	border-color: rgba(255, 255, 255, 0.18);
+}
+
+</style>
+
+<style>
+/* Tomorrow Theme */
+/* http://jmblog.github.com/color-themes-for-google-code-highlightjs */
+/* Original theme - https://github.com/chriskempson/tomorrow-theme */
+
+/* Tomorrow Comment */
+.hljs-comment,
+.hljs-quote {
+	color: #8e908c;
+}
+
+/* Tomorrow Red */
+.hljs-variable,
+.hljs-template-variable,
+.hljs-tag,
+.hljs-name,
+.hljs-selector-id,
+.hljs-selector-class,
+.hljs-regexp,
+.hljs-deletion {
+	color: #c82829;
+}
+
+/* Tomorrow Orange */
+.hljs-number,
+.hljs-built_in,
+.hljs-builtin-name,
+.hljs-literal,
+.hljs-type,
+.hljs-params,
+.hljs-meta,
+.hljs-link {
+	color: #f5871f;
+}
+
+/* Tomorrow Yellow */
+.hljs-attribute {
+	color: #eab700;
+}
+
+/* Tomorrow Green */
+.hljs-string,
+.hljs-symbol,
+.hljs-bullet,
+.hljs-addition {
+	color: #718c00;
+}
+
+/* Tomorrow Blue */
+.hljs-title,
+.hljs-section {
+	color: #4271ae;
+}
+
+/* Tomorrow Purple */
+.hljs-keyword,
+.hljs-selector-tag {
+	color: #8959a8;
+}
+
+.hljs {
+	display: block;
+	overflow-x: auto;
+	color: #4d4d4c;
+	padding: 0.5em;
+}
+
+.hljs-emphasis {
+	font-style: italic;
+}
+
+.hljs-strong {
+	font-weight: bold;
+}
+</style>
+
+<style>
+/*
+ * Markdown PDF CSS
+ */
+
+ body {
+	font-family: -apple-system, BlinkMacSystemFont, "Segoe WPC", "Segoe UI", "Ubuntu", "Droid Sans", sans-serif, "Meiryo";
+	padding: 0 12px;
+}
+
+pre {
+	background-color: #f8f8f8;
+	border: 1px solid #cccccc;
+	border-radius: 3px;
+	overflow-x: auto;
+	white-space: pre-wrap;
+	overflow-wrap: break-word;
+}
+
+pre:not(.hljs) {
+	padding: 23px;
+	line-height: 19px;
+}
+
+blockquote {
+	background: rgba(127, 127, 127, 0.1);
+	border-color: rgba(0, 122, 204, 0.5);
+}
+
+.emoji {
+	height: 1.4em;
+}
+
+code {
+	font-size: 14px;
+	line-height: 19px;
+}
+
+/* for inline code */
+:not(pre):not(.hljs) > code {
+	color: #C9AE75; /* Change the old color so it seems less like an error */
+	font-size: inherit;
+}
+
+/* Page Break : use <div class="page"/> to insert page break
+-------------------------------------------------------- */
+.page {
+	page-break-after: always;
+}
+
+</style>
+
+<script src="https://unpkg.com/mermaid/dist/mermaid.min.js"></script>
+</head>
+<body>
+  <script>
+    mermaid.initialize({
+      startOnLoad: true,
+      theme: document.body.classList.contains('vscode-dark') || document.body.classList.contains('vscode-high-contrast')
+          ? 'dark'
+          : 'default'
+    });
+  </script>
+<h1 id="opera-disp-s1-data-access-and-time-series-analysis">OPERA DISP-S1 Data Access and Time Series Analysis</h1>
+<p>This section sets up a full environment for accessing and processing Sentinel-1 displacement products from the OPERA DISP-S1 project.</p>
+<p>It includes:</p>
+<ul>
+<li>Installing the required <strong>Conda environment</strong> using <strong>Miniforge</strong></li>
+<li>Downloading <strong>Sentinel-1 displacement data</strong> using <code>opera-utils</code>, filtered by frame ID and bounding box</li>
+<li>Reformatting the data into a <strong>MintPy-compatible format</strong> for time-series analysis</li>
+</ul>
+<p>The setup works on Linux, macOS.</p>
+<p><em>Prepared by: Bryan Raimbault</em></p>
+<h3 id="1-install-miniforge---condamamba">1. Install Miniforge - Conda/Mamba</h3>
+<ul>
+<li><strong>Linux/macOS</strong>: Open the <strong>Terminal</strong> app.</li>
+</ul>
+<pre class="hljs"><code><div>mkdir -p /path/to/folder/tools; <span class="hljs-built_in">cd</span> /path/to/folder/tools
+
+<span class="hljs-comment"># download, install and setup (mini)conda/mamba in the terminal</span>
+<span class="hljs-comment"># for Linux:</span>
+wget https://github.com/conda-forge/miniforge/releases/latest/download/Miniforge3-Linux-x86_64.sh
+<span class="hljs-comment"># for macOS with Apple Silicon: </span>
+curl https://github.com/conda-forge/miniforge/releases/latest/download/Miniforge3-MacOSX-arm64.sh -o Miniforge3-MacOSX-arm64.sh
+<span class="hljs-comment"># for macOS with Intel: </span>
+curl https://github.com/conda-forge/miniforge/releases/latest/download/Miniforge3-MacOSX-x86_64.sh -o Miniforge3-MacOSX-x86_64.sh
+<span class="hljs-comment"># Install Miniforge (adjust filename and installation path as needed)</span>
+bash Miniforge3-{Version}.sh -b -p /path/to/folder/tools/miniconda3
+<span class="hljs-comment"># Initialize conda for your shell: </span>
+/path/to/folder/tools/miniconda3/bin/conda init bash
+</div></code></pre>
+<p>Close and restart the shell for changes to take effect.</p>
+<pre class="hljs"><code><div><span class="hljs-comment"># Add conda-forge channel</span>
+conda config --add channels conda-forge
+
+<span class="hljs-comment"># Install mamba (faster alternative to conda) and git</span>
+conda install git mamba --yes
+
+<span class="hljs-comment"># Create a new environment</span>
+conda create -n opera_disp-s1 --yes
+conda activate opera_disp-s1
+
+<span class="hljs-comment"># Install required packages into the environment</span>
+mamba install -c conda-forge python jupyter ipyleaflet --yes
+</div></code></pre>
+<h3 id="2-install-opera-disp-s1-tools-to-operadisp-s1-environment">2. Install OPERA DISP-S1 tools to <code>opera_disp-s1</code> environment</h3>
+<p><strong>Download source code:</strong></p>
+<pre class="hljs"><code><div><span class="hljs-built_in">cd</span> /path/to/folder/tools
+git <span class="hljs-built_in">clone</span> --depth 1 --no-checkout --branch main --no-checkout https://github.com/OPERA-Cal-Val/OPERA_Applications.git &amp;&amp; <span class="hljs-built_in">cd</span> OPERA_Applications
+git sparse-checkout <span class="hljs-built_in">set</span> DISP/Subsidence &amp;&amp; git checkout &amp;&amp; <span class="hljs-built_in">cd</span> DISP/Subsidence
+jupyter-notebook /path/to/folder/tools/OPERA_Applications/DISP/Subsidence/DISP-S1_Land_Subsidence.ipynb
+<span class="hljs-comment">#This enables you to only clone the folder of interest opera_disp within the entire repository</span>
+<span class="hljs-comment">#Then, follow the instructions in the Jupyter notebook by running the cells one by one using `Shift + Enter`.</span>
+</div></code></pre>
+<h3 id="3-launching-again-the-notebook-in-the-future">3. Launching again the notebook in the future</h3>
+<pre class="hljs"><code><div><span class="hljs-comment"># 1 Open a terminal</span>
+conda activate opera_disp-s1
+jupyter-notebook /path/to/folder/tools/OPERA_Applications/DISP/Subsidence/DISP-S1_Land_Subsidence.ipynb
+<span class="hljs-comment">#Then, follow the instructions in the Jupyter notebook by running the cells one by one using `Shift + Enter`.</span>
+</div></code></pre>
+<hr>
+<h3 id="4-run-the-opera-data-downloading-scripts">4. Run the OPERA data downloading scripts:</h3>
+<p>If you want to download files directly without using Jupyter Notebooks, you can use the opera-utils command-line tool provided by the opera_utils Python package.</p>
+<p>For example, here's how to download data for the Central Valley, California case study, using Sentinel-1 descending track 042 (Frame 11116). The full dataset for Frame 11116 contains approximately 300 interferograms (~102 GB total, ~340 MB per file). To reduce download time and storage usage, we recommend limiting the spatial with <code>--bbox</code> and temporal range using the <code>--start-datetime</code> and <code>--end-datetime arguments</code>.</p>
+<pre class="hljs"><code><div><span class="hljs-comment"># Arguments:</span>
+<span class="hljs-comment"># --frame-id       OPERA frame number</span>
+<span class="hljs-comment"># --output-dir     Folder to save downloaded data</span>
+<span class="hljs-comment"># --bbox           Bounding box (lon_min lat_min lon_max lat_max)</span>
+<span class="hljs-comment"># --start-datetime Start date (optional, format: YYYY-MM-DD)</span>
+<span class="hljs-comment"># --end-datetime   End date (optional, format: YYYY-MM-DD)</span>
+<span class="hljs-comment"># --num-workers    Number of parallel download workers</span>
+
+opera-utils disp-s1-download \
+    --output-dir subset-ncs \
+    --bbox -120.4397 36.0065 -120.1362 36.2195 \
+    --frame-id 11116 \
+    --start-datetime 2023-01-01 \
+    --end-datetime 2023-01-31 \
+    --num-workers 4
+</div></code></pre>
+<h3 id="5-reformat-and-output-files-to-mintpy">5. Reformat and Output Files to MintPy</h3>
+<p>This step takes the downloaded DISP-S1 displacement NetCDF (.nc) files and:</p>
+<ul>
+<li>Applies a referencing method to normalize displacement values (e.g., border median, high-coherence mask, or a specific point).</li>
+<li>Generates a new, single reformatted NetCDF output file (e.g., disp-output-<strong>FRAME_ID</strong>.nc).</li>
+</ul>
+<pre class="hljs"><code><div><span class="hljs-comment"># -----------------------------</span>
+<span class="hljs-comment"># DISP-S1 Stack Reformat Script</span>
+<span class="hljs-comment"># -----------------------------</span>
+
+<span class="hljs-comment"># Set the reference method to one of the following:</span>
+<span class="hljs-comment">#   "NONE"            → No referencing (raw displacement)</span>
+<span class="hljs-comment">#   "POINT"           → Reference to a specific lat/lon location</span>
+<span class="hljs-comment">#   "MEDIAN"          → Median over valid land pixels (excludes water)</span>
+<span class="hljs-comment">#   "BORDER"          → Median over border pixels (configurable size)</span>
+<span class="hljs-comment">#   "HIGH_COHERENCE"  → Median over high-coherence mask (based on threshold)</span>
+
+REFERENCE_METHOD=<span class="hljs-string">"BORDER"</span>  <span class="hljs-comment"># Change this to your preferred method</span>
+FRAME_ID=11116
+OUTPUT_NAME=<span class="hljs-string">"disp-output-<span class="hljs-variable">${FRAME_ID}</span>.nc"</span>
+
+<span class="hljs-comment"># Collect input files</span>
+INPUT_FILES=$(ls subset-ncs/*.nc | sort)
+INPUT_FILES_STR=$(<span class="hljs-built_in">echo</span> <span class="hljs-variable">$INPUT_FILES</span>)
+
+<span class="hljs-comment"># Run the DISP-S1 reformat command</span>
+opera-utils disp-s1-reformat \
+    --drop-vars connected_component_labels shp_counts persistent_scatterer_mask timeseries_inversion_residuals short_wavelength_displacement \
+    --reference-method <span class="hljs-variable">$REFERENCE_METHOD</span> \
+    --output-name <span class="hljs-variable">$OUTPUT_NAME</span> \
+    --reference-border-pixels 3 \
+    --input-files <span class="hljs-variable">$INPUT_FILES_STR</span>
+
+    <span class="hljs-comment"># Optional reference parameters (uncomment as needed):</span>
+    <span class="hljs-comment"># --reference-row &lt;row&gt; \</span>
+    <span class="hljs-comment"># --reference-col &lt;col&gt; \</span>
+    <span class="hljs-comment"># --reference-lat &lt;lat&gt; \</span>
+    <span class="hljs-comment"># --reference-lon &lt;lon&gt; \</span>
+    <span class="hljs-comment"># --reference-coherence-threshold 0.7</span>
+</div></code></pre>
+<h4 id="convert-output-to-mintpy-format">Convert output to MintPy format</h4>
+<p>This step converts the reprocessed displacement NetCDF file into a format compatible with <a href="https://github.com/insarlab/MintPy">MintPy</a>. It uses the first <code>.nc</code> file from the stack as a sample reference grid and generates standard MintPy outputs in a new <code>export/</code> folder.</p>
+<p>The output includes:</p>
+<ul>
+<li>velocity.h5 - average linear velocity map (in m/year)</li>
+<li>timeseries.h5 - full displacement time series for each pixel (linked to the input NetCDF)</li>
+<li>avgSpatialCoh.h5 - average spatial coherence map (used for masking and visualization)</li>
+<li>disp-output-<strong>FRAME_ID</strong>.nc - the reprocessed OPERA displacement stack (moved into export/)</li>
+</ul>
+<pre class="hljs"><code><div>SAMPLE_FILE=$(<span class="hljs-built_in">echo</span> <span class="hljs-variable">$INPUT_FILES</span> | awk <span class="hljs-string">'{print $1}'</span>)
+
+python -m opera_utils.disp.mintpy <span class="hljs-variable">$OUTPUT_NAME</span> \
+    --sample-disp-nc <span class="hljs-variable">$SAMPLE_FILE</span> \
+    --outdir <span class="hljs-built_in">export</span>
+
+<span class="hljs-comment"># Move the output to the export directory</span>
+mv <span class="hljs-variable">$OUTPUT_NAME</span> <span class="hljs-built_in">export</span>/
+</div></code></pre>
+<h3 id="6-how-to-view-the-data">6. How to view the data?</h3>
+<p>In a terminal, you can visualize the velocity.h5 / timeseries.h5 newly created with the MintPy tools.</p>
+<pre class="hljs"><code><div><span class="hljs-comment">## Need help with the arguments: tsview.py -h</span>
+tsview.py /path/to/work/folder/<span class="hljs-built_in">export</span>/timeseries.h5
+
+<span class="hljs-comment">## Need help with the arguments: view.py -h</span>
+view.py /path/to/work/folder/<span class="hljs-built_in">export</span>/velocity.h5
+</div></code></pre>
+
+</body>
+</html>
