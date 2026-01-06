@@ -41,7 +41,7 @@ The first code cell in the notebook will automatically check for and install rem
 ### 3. Usage
 Open the notebook in Jupyter:
 ```bash
-jupyter notebook OPERA-DISP-S1_Landslides.ipynb
+jupyter-notebook OPERA-DISP-S1_Landslides.ipynb
 ```
 Follow the step-by-step instructions provided directly within the notebook cells.
 
