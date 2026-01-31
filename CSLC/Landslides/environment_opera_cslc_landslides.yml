@@ -1,0 +1,29 @@
+name: opera_cslc_landslides
+channels:
+  - conda-forge
+dependencies:
+  - python>=3.10
+  - asf_search
+  - affine
+  - cartopy
+  - folium
+  - gdal
+  - geopandas
+  - h5py
+  - imageio
+  - ipykernel
+  - jupyterlab
+  - matplotlib
+  - numpy
+  - opera-utils
+  - pandas
+  - pyproj
+  - rasterio
+  - requests
+  - rioxarray
+  - shapely
+  - tqdm
+  - xarray
+  - pip
+  - pip:
+      - watermark
